@@ -25,7 +25,7 @@ main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
 .meta .tag{border:1px solid var(--line);border-radius:999px;padding:1px 9px}
 .meta .tag.d-easy{color:#7ccf8a}.meta .tag.d-medium{color:#e0c069}.meta .tag.d-hard{color:#f08a8a}
 .q{font-size:17px;margin:0 0 14px;white-space:pre-wrap}
-.q .primary,.q .translation{display:block}
+.q .primary{display:block}
 .translation{display:none;color:#cfd6e6;font-size:.94em;margin-top:3px}
 .translation.visible{display:block}
 .choices{display:grid;gap:8px;margin:0;padding:0;list-style:none}
@@ -143,7 +143,7 @@ const bi = (en, ko, tag = "span", show = false) => {
 // ---- state ----
 let cur = null, order = null, locked = false, currentPicked = null;
 let exam = null; // {items:[{q,order,picked}], idx, endAt, timerId}
-let historyDB = null, historyRecords = [], historyError = "", viewedAttempt = null, viewedAll = false, reviewOverrides = new Map();
+let historyDB = null, historyRecords = [], historyError = "", viewedAttempt = null, viewedAll = false, reviewOverrides = new Map(), attemptSave = null;
 const HISTORY_DB = "kcna-kcsa-history", HISTORY_STORE = "attempts";
 function openHistoryDB() {
   if (!window.indexedDB) return Promise.reject(new Error("이 브라우저는 IndexedDB를 지원하지 않습니다."));
@@ -241,7 +241,7 @@ function renderQuestion(q, ord, picked, reveal) {
     </div>`;
   el.card.innerHTML = html;
   el.card.querySelectorAll(".choices li").forEach(li => li.addEventListener("click", () => choose(+li.dataset.ci)));
-  const tr = $("#translationToggle"); if (tr) tr.addEventListener("click", () => { translationShown = !translationShown; renderQuestion(cur, order, picked, reveal); });
+  const tr = $("#translationToggle"); if (tr) tr.addEventListener("click", () => { translationShown = !translationShown; renderQuestion(cur, order, picked, reveal); $("#translationToggle")?.focus(); });
   const n = $("#next"); if (n) n.addEventListener("click", next);
   const s = $("#skip"); if (s) s.addEventListener("click", () => { lastId = cur.id; nextEndless(); });
   const pv = $("#prev"); if (pv) pv.addEventListener("click", () => { exam.idx--; showExamItem(); });
@@ -287,6 +287,8 @@ function next() {
 
 // ---- mock exam ----
 function startExam() {
+  if (exam) clearInterval(exam.timerId);
+  exam = null; el.timer.classList.add("hidden"); viewedAttempt = null; attemptSave = null;
   locked = false; currentPicked = null; translationShown = false; reviewOverrides.clear();
   const p = el.domain.value ? base().filter(q => q.domain === el.domain.value) : base();
   if (!p.length) {
@@ -337,12 +339,14 @@ function snapshotAttempt(items, right) {
     items: items.map(it => ({ id: it.q.id, domain: it.q.domain, subtopic: it.q.subtopic || "", difficulty: it.q.difficulty, style: it.q.style || "study", question: { en: it.q.q.en, ko: it.q.q.ko }, choices: { en: it.q.choices.en.slice(), ko: it.q.choices.ko.slice() }, answer: it.q.answer, picked: it.picked, order: it.order.slice(), explain: { en: it.q.explain.en, ko: it.q.explain.ko }, ref: it.q.ref || "" }))
   };
 }
-function renderAttempt(attempt, allShown = false) {
+function renderAttempt(attempt, allShown = false, options = {}) {
   viewedAttempt = attempt; viewedAll = allShown;
   const byDom = {};
   for (const it of attempt.items) { const d = byDom[it.domain] ||= { r: 0, n: 0 }; d.n++; if (it.picked === it.answer) d.r++; }
+  const saveStatus = attemptSave && attemptSave.attempt === attempt
+    ? `<p id="saveStatus" class="status">${attemptSave.status === "saving" ? "기록 저장 중…" : attemptSave.status === "saved" ? "기록 저장됨" : `기록 저장 실패: ${esc(attemptSave.error)}`}</p>` : "";
   el.result.classList.remove("hidden");
-  el.result.innerHTML = `<h2 class="${attempt.percent >= 75 ? "pass" : "fail"}">${attempt.percent}% — ${attempt.percent >= 75 ? "PASS" : "FAIL"} (합격선 75%)</h2>
+  el.result.innerHTML = `${saveStatus}<h2 class="${attempt.percent >= 75 ? "pass" : "fail"}">${attempt.percent}% — ${attempt.percent >= 75 ? "PASS" : "FAIL"} (합격선 75%)</h2>
     <p>${attempt.right} / ${attempt.total} 정답 · ${esc(new Date(attempt.completedAt).toLocaleString())} · ${esc(attempt.examLabel)} · ${esc(attempt.domainContext)} · ${esc(attempt.styleContext)}</p>
     <table><tr><th>도메인</th><th>정답</th><th>%</th></tr>${Object.entries(byDom).map(([d, v]) => `<tr><td>${esc(d)}</td><td>${v.r}/${v.n}</td><td>${Math.round(100 * v.r / v.n)}%</td></tr>`).join("")}</table>
     <div class="review-actions"><button id="allTranslations" type="button" aria-expanded="${allShown}">${targetLanguage === "ko" ? "한국어" : "English"} 번역 ${allShown ? "숨기기" : "모두 보기"}</button><span class="status">각 문항에서도 번역을 열 수 있습니다.</span></div>
@@ -353,23 +357,41 @@ function renderAttempt(attempt, allShown = false) {
       return `<div class="review-item${shown ? " translation-on" : ""}" data-review-index="${i}"><div class="meta"><span class="tag">${esc(it.domain)}</span><span class="tag">${esc(it.id)}</span></div><p class="q">${bi(it.question.en, it.question.ko, "span", false)}</p><ol class="choices">${choiceHtml}</ol><p class="review-answer"><b>내 답:</b> ${picked} · <b>${it.picked === it.answer ? "정답" : "정답은 " + (it.order.indexOf(it.answer) + 1) + "번"}</b></p><div class="review-actions"><button type="button" data-review-toggle aria-expanded="${shown}">${targetLanguage === "ko" ? "한국어" : "English"} 번역 ${shown ? "숨기기" : "보기"}</button></div><div class="explain show">${bi(it.explain.en, it.explain.ko, "div", false)}${it.ref ? `<a href="${esc(it.ref)}" target="_blank" rel="noopener noreferrer">${esc(it.ref)}</a>` : ""}</div></div>`;
     }).join("")}
     <button id="closeReview" type="button">현재 퀴즈로 돌아가기</button> <button id="again" class="primary" type="button">다시 모의고사</button>`;
-  $("#allTranslations").addEventListener("click", () => { reviewOverrides.clear(); renderAttempt(attempt, !allShown); });
+  $("#allTranslations").addEventListener("click", () => {
+    viewedAll = !viewedAll; reviewOverrides.clear();
+    el.result.querySelectorAll(".review-item").forEach(item => {
+      item.classList.toggle("translation-on", viewedAll);
+      const b = item.querySelector("[data-review-toggle]"); b.setAttribute("aria-expanded", viewedAll); b.textContent = `${targetLanguage === "ko" ? "한국어" : "English"} 번역 ${viewedAll ? "숨기기" : "보기"}`;
+    });
+    const all = $("#allTranslations"); all.setAttribute("aria-expanded", viewedAll); all.textContent = `${targetLanguage === "ko" ? "한국어" : "English"} 번역 ${viewedAll ? "숨기기" : "모두 보기"}`; all.focus();
+  });
   el.result.querySelectorAll("[data-review-toggle]").forEach(b => b.addEventListener("click", () => {
-    const item = b.closest(".review-item"), i = +item.dataset.reviewIndex, shown = item.classList.contains("translation-on");
-    reviewOverrides.set(i, !shown); renderAttempt(attempt, allShown);
+    const item = b.closest(".review-item"), i = +item.dataset.reviewIndex, on = !item.classList.contains("translation-on");
+    reviewOverrides.set(i, on); item.classList.toggle("translation-on", on); b.setAttribute("aria-expanded", on); b.textContent = `${targetLanguage === "ko" ? "한국어" : "English"} 번역 ${on ? "숨기기" : "보기"}`; b.focus();
   }));
   $("#closeReview").addEventListener("click", closeHistoryView);
   $("#again").addEventListener("click", startExam);
-  el.result.scrollIntoView({ behavior: "smooth", block: "start" });
-  $("#allTranslations").focus();
+  if (options.scroll === false) {
+    if (options.scrollTop != null) window.scrollTo(0, options.scrollTop);
+    if (options.reviewIndex != null) {
+      const item = el.result.querySelector(`[data-review-index="${options.reviewIndex}"]`); item?.querySelector("[data-review-toggle]")?.focus();
+    }
+  } else {
+    el.result.scrollIntoView({ behavior: "smooth", block: "start" });
+    $("#allTranslations").focus();
+  }
 }
 async function persistAttempt(attempt) {
   try {
     const id = await historyRequest("readwrite", attempt);
     attempt.id = id; historyRecords = [attempt, ...historyRecords].sort((a, b) => b.completedAt.localeCompare(a.completedAt)); historyError = ""; renderHistory();
-    const status = $("#saveStatus"); if (status) status.textContent = "기록 저장됨";
+    if (attemptSave && attemptSave.attempt === attempt) attemptSave.status = "saved";
   } catch (e) {
-    const status = $("#saveStatus"); if (status) status.textContent = `기록 저장 실패: ${e.message} (현재 결과는 계속 볼 수 있습니다.)`;
+    if (attemptSave && attemptSave.attempt === attempt) { attemptSave.status = "error"; attemptSave.error = e.message; }
+  }
+  if (viewedAttempt === attempt && !el.result.classList.contains("hidden")) {
+    const scrollTop = window.scrollY, active = document.activeElement?.closest?.(".review-item"), reviewIndex = active ? +active.dataset.reviewIndex : null;
+    renderAttempt(attempt, viewedAll, { scroll: false, scrollTop, reviewIndex });
   }
 }
 function finishExam() {
@@ -380,14 +402,13 @@ function finishExam() {
   for (const it of exam.items) { const ok = it.picked === it.q.answer; if (ok) right++; record(it.q, ok); }
   reviewOverrides.clear();
   const attempt = snapshotAttempt(exam.items, right);
+  attemptSave = { attempt, status: "saving", error: "" };
   renderAttempt(attempt, false);
-  el.result.insertAdjacentHTML("afterbegin", `<p id="saveStatus" class="status">기록 저장 중…</p>`);
   persistAttempt(attempt);
   exam = null;
   cur = null; order = null; currentPicked = null; locked = false;
   el.card.innerHTML = `<p class="q">모의고사 종료. 아래 결과를 확인하세요.</p>`;
   renderStats();
-  el.result.scrollIntoView({ behavior: "smooth" });
 }
 
 // ---- wiring ----
@@ -397,12 +418,16 @@ function updateLanguageButtons() {
 }
 function setTarget(lang) {
   targetLanguage = lang; pref("lang", lang); updateLanguageButtons();
+  const reviewVisible = viewedAttempt && !el.result.classList.contains("hidden");
+  const scrollTop = reviewVisible ? window.scrollY : null;
+  const active = reviewVisible ? document.activeElement?.closest?.(".review-item") : null;
   if (cur && order) renderQuestion(cur, order, exam ? exam.items[exam.idx].picked : currentPicked, exam ? false : locked);
-  if (viewedAttempt && !el.result.classList.contains("hidden")) renderAttempt(viewedAttempt, viewedAll);
+  if (reviewVisible) renderAttempt(viewedAttempt, viewedAll, { scroll: false, scrollTop, reviewIndex: active ? +active.dataset.reviewIndex : null });
+  if (reviewVisible && !active) (lang === "ko" ? el.targetKo : el.targetEn).focus();
 }
 function start() {
   if (exam) { clearInterval(exam.timerId); exam = null; el.timer.classList.add("hidden"); }
-  viewedAttempt = null; el.result.classList.add("hidden");
+  viewedAttempt = null; attemptSave = null; el.result.classList.add("hidden");
   loadStats(); fillDomains(); renderStats();
   if (el.mode.value === "exam") startExam(); else nextEndless();
 }

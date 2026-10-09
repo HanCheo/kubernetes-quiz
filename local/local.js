@@ -7308,16 +7308,16 @@ window.QUIZ_BANKS = { local: [
     },
     "choices": {
       "en": [
-        "It makes every request anonymous but safe",
+        "It provides authentication automatically without configuring an identity provider",
         "It enlarges the attack surface and requires tightly controlled authenticated access",
-        "It prevents all malformed requests automatically",
-        "It encrypts every Pod filesystem"
+        "It removes the need for API authorization because TLS encrypts traffic",
+        "It confines API access to the cluster network even when the endpoint is public"
       ],
       "ko": [
-        "모든 request가 anonymous이지만 안전해짐",
+        "identity provider를 configure하지 않아도 authentication을 자동 제공함",
         "attack surface가 커지고 엄격히 통제된 authenticated access가 필요해짐",
-        "모든 잘못된 request를 자동으로 방지함",
-        "모든 Pod filesystem을 암호화함"
+        "TLS가 traffic을 encryption하므로 API authorization이 필요 없어짐",
+        "endpoint가 public이어도 API access를 cluster network로 제한함"
       ]
     },
     "answer": 1,
@@ -7340,16 +7340,16 @@ window.QUIZ_BANKS = { local: [
     },
     "choices": {
       "en": [
-        "Pod DNS",
-        "Container runtime",
-        "Authorization policy",
-        "Node pressure eviction"
+        "Authentication of a principal",
+        "Admission policy before an object is persisted",
+        "Authorization policy for permitted verbs and resources",
+        "Audit logging of the API request"
       ],
       "ko": [
-        "Pod DNS",
-        "Container runtime",
-        "Authorization policy",
-        "Node pressure eviction"
+        "principal authentication",
+        "object가 persisted되기 전의 admission policy",
+        "허용된 verb와 resource에 대한 authorization policy",
+        "API request의 audit logging"
       ]
     },
     "answer": 2,
@@ -8012,15 +8012,15 @@ window.QUIZ_BANKS = { local: [
     },
     "choices": {
       "en": [
-        "A Service NodePort",
-        "A Pod label selector",
-        "A mutable image tag",
+        "TLS protecting data in transit",
+        "RBAC authorization for API access",
+        "Audit logging of access and changes",
         "Encryption at rest with carefully protected encryption keys"
       ],
       "ko": [
-        "Service NodePort",
-        "Pod label selector",
-        "mutable image tag",
+        "transit 중 data를 보호하는 TLS",
+        "API access를 위한 RBAC authorization",
+        "access와 변경의 audit logging",
         "신중하게 보호된 encryption key를 사용하는 at-rest encryption"
       ]
     },
@@ -8429,15 +8429,15 @@ window.QUIZ_BANKS = { local: [
     "choices": {
       "en": [
         "Integrity verification such as a cryptographic checksum with controlled metadata",
-        "A mutable filename only",
-        "A Pod restart count",
-        "An unrelated Service selector"
+        "Restricting who may read or delete the backup",
+        "A retention policy that keeps backup versions for a defined period",
+        "An offsite copy in a separate failure domain"
       ],
       "ko": [
         "통제된 metadata와 함께 cryptographic checksum 같은 integrity verification",
-        "mutable filename만",
-        "Pod restart count",
-        "무관한 Service selector"
+        "backup을 read하거나 delete할 수 있는 주체를 제한함",
+        "정해진 기간 backup version을 보존하는 retention policy",
+        "별도 failure domain에 offsite copy를 보관함"
       ]
     },
     "answer": 0,
@@ -8445,7 +8445,7 @@ window.QUIZ_BANKS = { local: [
       "en": "An integrity check can reveal changed backup content; access control and encryption address additional threats.",
       "ko": "integrity check는 변경된 backup content를 드러낼 수 있으며 access control과 encryption은 추가 threat를 다룹니다."
     },
-    "ref": "https://kubernetes.io/docs/concepts/storage/storage-classes/"
+    "ref": "https://csrc.nist.gov/pubs/sp/1800/25/final"
   },
   {
     "id": "local-301",
