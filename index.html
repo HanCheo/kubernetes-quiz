@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KCNA / KCSA 문제 은행</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--line:#262b36;--fg:#e6e6e6;--mute:#8b93a5;--ok:#2ea043;--bad:#d9534f;--acc:#c9a227;--sel:#2b3a55}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 -apple-system,"Apple SD Gothic Neo","Noto Sans KR",Segoe UI,Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+header h1{font-size:16px;margin:0 12px 0 0;color:var(--acc)}
+select,button{background:#1f232d;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font:inherit;cursor:pointer}
+button:hover,select:hover{border-color:#3b4356}
+button.primary{background:var(--acc);color:#111;border-color:var(--acc);font-weight:600}
+button:disabled{opacity:.45;cursor:default}
+label.sw{display:flex;gap:6px;align-items:center;color:var(--mute);font-size:13px}
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:16px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.stat b{display:block;font-size:20px}
+.stat span{color:var(--mute);font-size:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;color:var(--mute);font-size:12px;margin-bottom:10px}
+.meta .tag{border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+.meta .tag.d-easy{color:#7ccf8a}.meta .tag.d-medium{color:#e0c069}.meta .tag.d-hard{color:#f08a8a}
+.q{font-size:17px;margin:0 0 14px;white-space:pre-wrap}
+.q .primary,.q .translation{display:block}
+.translation{display:none;color:#cfd6e6;font-size:.94em;margin-top:3px}
+.translation.visible{display:block}
+.choices{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.choices li{border:1px solid var(--line);border-radius:8px;padding:10px 12px 10px 42px;position:relative;cursor:pointer;background:#13161d}
+.choices li:hover{border-color:#3b4356}
+.choices li .k{position:absolute;left:12px;top:10px;width:22px;height:22px;border-radius:50%;background:#262b36;color:var(--mute);font-size:12px;display:flex;align-items:center;justify-content:center}
+.choices li.sel{background:var(--sel);border-color:#4a6aa5}
+.choices li.ok{border-color:var(--ok);background:rgba(46,160,67,.12)}
+.choices li.bad{border-color:var(--bad);background:rgba(217,83,79,.12)}
+.choices li.locked{cursor:default}
+.explain{margin-top:14px;border-left:3px solid var(--acc);padding:8px 12px;background:#13161d;border-radius:0 8px 8px 0;display:none}
+.explain.show{display:block}
+.explain .verdict{font-weight:700;margin-bottom:6px}
+.explain .verdict.ok{color:var(--ok)}.explain .verdict.bad{color:var(--bad)}
+.explain a{color:#7aa7ff;font-size:13px;word-break:break-all}
+.actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;align-items:center}
+.actions .hint{color:var(--mute);font-size:12px;margin-left:auto}
+.language-buttons{display:flex;gap:4px;align-items:center;color:var(--mute);font-size:13px}
+.language-buttons button[aria-pressed="true"]{background:var(--acc);color:#111;border-color:var(--acc);font-weight:600}
+.domains{margin-top:22px;display:grid;gap:6px}
+.dom{display:grid;grid-template-columns:1fr 160px 70px;gap:10px;align-items:center;font-size:13px;color:var(--mute)}
+.bar{height:8px;background:#262b36;border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok)}
+.timer{font-variant-numeric:tabular-nums;color:var(--acc);font-weight:600}
+.result{margin-top:20px}
+.result table{width:100%;border-collapse:collapse;font-size:14px}
+.result td,.result th{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+.result .review-item{border-top:1px solid var(--line);padding:12px 0}
+.result .review-item .q{font-size:16px}
+.result .review-actions{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.result .review-answer{margin:4px 0;color:var(--mute)}
+.result .review-item.translation-on .translation{display:block}
+.history-list{margin-top:20px}
+.history-row{display:flex;justify-content:space-between;gap:10px;align-items:center;border-top:1px solid var(--line);padding:10px 0}
+.history-row span{color:var(--mute);font-size:13px}
+.status{color:var(--mute);font-size:13px}
+.pass{color:var(--ok)}.fail{color:var(--bad)}
+.hidden{display:none!important}
+@media(max-width:600px){.dom{grid-template-columns:1fr 90px 60px}.history-row{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <h1>KCNA / KCSA</h1>
+  <select id="exam"><option value="local-kcna">KCNA</option><option value="local-kcsa">KCSA</option><option value="local">KCNA + KCSA</option></select>
+  <select id="mode"><option value="endless">끝없이 (즉시 해설)</option><option value="wrong">오답만 다시</option><option value="exam">모의고사 60문항 / 90분</option></select>
+  <select id="domain"><option value="">전체 도메인</option></select>
+  <select id="style"><option value="">전체 유형</option><option value="exam">실전형 (실제 시험 스타일)</option><option value="study">심화형 (시나리오)</option></select>
+  <span class="language-buttons" role="group" aria-label="번역 언어"><span>번역 언어</span><button id="target-ko" type="button" aria-pressed="true">한국어</button><button id="target-en" type="button" aria-pressed="false">English</button></span>
+  <span id="timer" class="timer hidden"></span>
+  <button id="historyButton" class="primary" type="button" aria-controls="history" aria-expanded="false">시험 기록</button>
+  <button id="reset" type="button" title="이 시험의 진행 통계 삭제">통계 초기화</button>
+</header>
+<main>
+  <div class="stats" id="stats"></div>
+  <div class="card" id="card"></div>
+  <div class="domains" id="domains"></div>
+  <div class="result card hidden" id="result"></div>
+  <div class="history-list card hidden" id="history"></div>
+</main>
+<script src="local/local.js"></script>
+<script>
+(() => {
+const BANKS = window.QUIZ_BANKS || {};
+const EXAMS = { "local-kcna": ["local-kcna"], "local-kcsa": ["local-kcsa"], local: ["local"] };
+// Personal questions are the only live pool. Keep the historical selector values so progress keys remain stable.
+if (BANKS.local) {
+  for (const exam of ["kcna", "kcsa"]) BANKS[`local-${exam}`] = BANKS.local.filter(q => q.exam === exam);
+}
+const $ = s => document.querySelector(s);
+const el = { exam: $("#exam"), mode: $("#mode"), domain: $("#domain"), style: $("#style"), targetKo: $("#target-ko"), targetEn: $("#target-en"), timer: $("#timer"), historyButton: $("#historyButton"), reset: $("#reset"), stats: $("#stats"), card: $("#card"), domains: $("#domains"), result: $("#result"), history: $("#history") };
+
+const pref = (k, v) => v === undefined ? localStorage.getItem("quiz:" + k) : localStorage.setItem("quiz:" + k, v);
+const statsKey = () => "quiz:stats:" + el.exam.value;
+let stats = {};
+const loadStats = () => { try { stats = JSON.parse(localStorage.getItem(statsKey()) || "{}"); } catch { stats = {}; } };
+const saveStats = () => localStorage.setItem(statsKey(), JSON.stringify(stats));
+
+const base = () => {
+  const s = el.style.value;
+  const ex = EXAMS[el.exam.value].flatMap(k => BANKS[k] || []);
+  return s ? ex.filter(q => (q.style || "study") === s) : ex;
+};
+function pool() {
+  const d = el.domain.value;
+  let p = d ? base().filter(q => q.domain === d) : base();
+  if (el.mode.value === "wrong") p = p.filter(q => (stats[q.id] || {}).wrong > 0 && (stats[q.id] || {}).streak < 2);
+  return p;
+}
+
+// Weighted pick: unseen 3, last wrong 4, streak>=3 0.3, else 1. Never the same question twice in a row.
+let lastId = null;
+function pick(p) {
+  if (!p.length) return null;
+  let total = 0;
+  const w = p.map(q => {
+    const s = stats[q.id];
+    let x = !s ? 3 : s.lastWrong ? 4 : s.streak >= 3 ? 0.3 : 1;
+    if (q.id === lastId && p.length > 1) x = 0;
+    total += x; return x;
+  });
+  let r = Math.random() * total;
+  for (let i = 0; i < p.length; i++) { r -= w[i]; if (r <= 0) return p[i]; }
+  return p[p.length - 1];
+}
+
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let targetLanguage = "ko", translationShown = false;
+const bi = (en, ko, tag = "span", show = false) => {
+  const primary = targetLanguage === "ko" ? en : ko, translation = targetLanguage === "ko" ? ko : en;
+  return `<${tag} class="primary">${esc(primary)}</${tag}><${tag} class="translation${show ? " visible" : ""}">${esc(translation)}</${tag}>`;
+};
+
+// ---- state ----
+let cur = null, order = null, locked = false, currentPicked = null;
+let exam = null; // {items:[{q,order,picked}], idx, endAt, timerId}
+let historyDB = null, historyRecords = [], historyError = "", viewedAttempt = null, viewedAll = false, reviewOverrides = new Map();
+const HISTORY_DB = "kcna-kcsa-history", HISTORY_STORE = "attempts";
+function openHistoryDB() {
+  if (!window.indexedDB) return Promise.reject(new Error("이 브라우저는 IndexedDB를 지원하지 않습니다."));
+  if (historyDB) return Promise.resolve(historyDB);
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(HISTORY_DB, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore(HISTORY_STORE, { keyPath: "id", autoIncrement: true });
+    req.onsuccess = () => { historyDB = req.result; resolve(historyDB); };
+    req.onerror = () => reject(req.error || new Error("시험 기록 저장소를 열 수 없습니다."));
+  });
+}
+function historyRequest(mode, value) {
+  return openHistoryDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(HISTORY_STORE, mode), store = tx.objectStore(HISTORY_STORE);
+    const req = mode === "readonly" ? store.getAll() : store.add(value);
+    let result;
+    req.onsuccess = () => { result = req.result; };
+    const fail = () => reject(tx.error || req.error || new Error("시험 기록 저장에 실패했습니다."));
+    req.onerror = fail;
+    tx.onerror = fail;
+    tx.onabort = fail;
+    tx.oncomplete = () => resolve(result);
+  }));
+}
+async function loadHistory() {
+  try {
+    const raw = await historyRequest("readonly") || [];
+    const valid = raw.filter(r => r && typeof r.completedAt === "string" && typeof r.examLabel === "string" && Array.isArray(r.items) && r.items.length > 0 && r.items.every(it => it.question && typeof it.question.en === "string" && typeof it.question.ko === "string" && it.choices && Array.isArray(it.choices.en) && Array.isArray(it.choices.ko) && it.explain && typeof it.answer === "number" && Array.isArray(it.order)));
+    historyError = valid.length !== raw.length ? "읽을 수 없는 시험 기록이 있어 제외했습니다." : "";
+    historyRecords = valid.sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)));
+  } catch (e) { historyError = e.message; historyRecords = []; }
+  renderHistory();
+}
+function renderHistory() {
+  const rows = historyRecords.map((r, i) => `<div class="history-row"><span>${esc(r.examLabel)} · ${esc(new Date(r.completedAt).toLocaleString())} · ${r.right}/${r.total} (${r.percent}%) · ${esc(r.domainContext)}</span><button type="button" data-history-index="${i}">결과 열기</button></div>`).join("");
+  el.history.innerHTML = `<h2>시험 기록</h2>${historyError ? `<p class="status">${esc(historyError)}</p>` : ""}${rows || "<p class='status'>완료된 모의고사가 없습니다.</p>"}<p><button id="closeHistory" type="button">현재 퀴즈로 돌아가기</button></p>`;
+  el.history.querySelectorAll("[data-history-index]").forEach(b => b.addEventListener("click", () => { reviewOverrides.clear(); renderAttempt(historyRecords[+b.dataset.historyIndex]); }));
+  $("#closeHistory").addEventListener("click", closeHistoryView);
+}
+function closeHistoryView() {
+  viewedAttempt = null; viewedAll = false; reviewOverrides.clear();
+  el.result.classList.add("hidden"); el.history.classList.add("hidden"); el.historyButton.setAttribute("aria-expanded", "false");
+  (cur ? el.card : el.historyButton).scrollIntoView({ behavior: "smooth", block: "start" });
+  if (cur) el.card.querySelector("#next, #translationToggle")?.focus();
+}
+
+function renderStats() {
+  const p = base();
+  const seen = p.filter(q => stats[q.id]).length;
+  let right = 0, total = 0, streak = 0;
+  for (const q of p) { const s = stats[q.id]; if (!s) continue; right += s.right; total += s.right + s.wrong; }
+  for (const id of (stats.__recent || [])) { if (stats[id] && !stats[id].lastWrong) streak++; else break; }
+  const mastered = p.filter(q => (stats[q.id] || {}).streak >= 3).length;
+  const wrongNow = p.filter(q => (stats[q.id] || {}).lastWrong).length;
+  el.stats.innerHTML = [
+    [p.length, "문항 수"], [`${seen} / ${p.length}`, "본 문항"], [total ? Math.round(100 * right / total) + "%" : "–", `정답률 (${right}/${total})`],
+    [mastered, "숙달 (3연속 정답)"], [wrongNow, "현재 오답"], [streak, "연속 정답"]
+  ].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+
+  const byDom = {};
+  for (const q of p) { const d = byDom[q.domain] ||= { n: 0, r: 0, t: 0 }; d.n++; const s = stats[q.id]; if (s) { d.r += s.right; d.t += s.right + s.wrong; } }
+  el.domains.innerHTML = Object.entries(byDom).map(([d, v]) => {
+    const pct = v.t ? Math.round(100 * v.r / v.t) : 0;
+    return `<div class="dom"><span>${esc(d)} <small>(${v.n})</small></span><div class="bar"><i style="width:${pct}%"></i></div><span>${v.t ? pct + "%" : "–"}</span></div>`;
+  }).join("");
+}
+
+function fillDomains() {
+  const ds = [...new Set(EXAMS[el.exam.value].flatMap(k => (BANKS[k] || []).map(q => q.domain)))];
+  const keep = el.domain.value;
+  el.domain.innerHTML = `<option value="">전체 도메인</option>` + ds.map(d => `<option value="${esc(d)}"${d === keep ? " selected" : ""}>${esc(d)}</option>`).join("");
+}
+
+function renderQuestion(q, ord, picked, reveal) {
+  const examTag = q.exam === "kcna" || q.id.startsWith("kcna") ? "KCNA" : q.exam === "kcsa" || q.id.startsWith("kcsa") ? "KCSA" : "개인";
+  const html = `
+    <div class="meta"><span class="tag">${examTag}</span><span class="tag">${esc(q.domain)}</span><span class="tag">${esc(q.subtopic || "")}</span><span class="tag d-${q.difficulty}">${q.difficulty}</span><span class="tag">${q.style === "exam" ? "실전형" : "심화형"}</span><span class="tag">${q.id}</span>${exam ? `<span class="tag">${exam.idx + 1} / ${exam.items.length}</span>` : ""}</div>
+    <p class="q">${bi(q.q.en, q.q.ko, "span", translationShown)}</p>
+    <ol class="choices">${ord.map((ci, i) => {
+      let cls = "";
+      if (reveal) { if (ci === q.answer) cls = "ok"; else if (picked === ci) cls = "bad"; cls += " locked"; }
+      else if (picked === ci) cls = "sel";
+      return `<li data-ci="${ci}" class="${cls}"><span class="k">${i + 1}</span>${bi(q.choices.en[ci], q.choices.ko[ci], "span", translationShown)}</li>`;
+    }).join("")}</ol>
+    <div class="explain${reveal ? " show" : ""}">
+      <div class="verdict ${picked === q.answer ? "ok" : "bad"}">${picked === q.answer ? "정답" : "오답 — 정답은 " + (ord.indexOf(q.answer) + 1) + "번"}</div>
+      ${bi(q.explain.en, q.explain.ko, "div", translationShown)}
+      ${q.ref ? `<a href="${esc(q.ref)}" target="_blank" rel="noopener noreferrer">${esc(q.ref)}</a>` : ""}
+    </div>
+    <div class="actions">
+      <button id="translationToggle" type="button" aria-expanded="${translationShown}" aria-pressed="${translationShown}">${targetLanguage === "ko" ? "한국어" : "English"} 번역 ${translationShown ? "숨기기" : "보기"}</button>
+      ${exam ? `<button id="prev"${exam.idx === 0 ? " disabled" : ""}>이전</button><button id="next" class="primary">${exam.idx === exam.items.length - 1 ? "제출" : "다음"}</button>`
+             : `<button id="next" class="primary"${reveal ? "" : " disabled"}>다음 문제 (Enter)</button><button id="skip">건너뛰기</button>`}
+      <span class="hint">1–4 로 선택${exam ? "" : " · Enter 다음"}</span>
+    </div>`;
+  el.card.innerHTML = html;
+  el.card.querySelectorAll(".choices li").forEach(li => li.addEventListener("click", () => choose(+li.dataset.ci)));
+  const tr = $("#translationToggle"); if (tr) tr.addEventListener("click", () => { translationShown = !translationShown; renderQuestion(cur, order, picked, reveal); });
+  const n = $("#next"); if (n) n.addEventListener("click", next);
+  const s = $("#skip"); if (s) s.addEventListener("click", () => { lastId = cur.id; nextEndless(); });
+  const pv = $("#prev"); if (pv) pv.addEventListener("click", () => { exam.idx--; showExamItem(); });
+}
+
+// ---- endless / wrong-only ----
+function nextEndless() {
+  const p = pool();
+  translationShown = false;
+  locked = false;
+  currentPicked = null;
+  cur = pick(p);
+  if (!cur) {
+    el.card.innerHTML = `<p class="q">${el.mode.value === "wrong" ? "현재 오답으로 남은 문항이 없습니다. 다른 모드를 선택하세요." : "이 조건에 해당하는 문항이 없습니다."}</p>`;
+    return;
+  }
+  order = shuffle([0, 1, 2, 3]);
+  renderQuestion(cur, order, null, false);
+}
+
+function record(q, ok) {
+  const s = stats[q.id] ||= { right: 0, wrong: 0, streak: 0, lastWrong: false };
+  if (ok) { s.right++; s.streak++; s.lastWrong = false; } else { s.wrong++; s.streak = 0; s.lastWrong = true; }
+  s.at = Date.now();
+  const r = stats.__recent ||= []; r.unshift(q.id); r.length = Math.min(r.length, 50);
+  saveStats();
+}
+
+function choose(ci) {
+  if (exam) { exam.items[exam.idx].picked = ci; currentPicked = ci; renderQuestion(cur, order, ci, false); return; }
+  if (locked) return;
+  locked = true;
+  currentPicked = ci;
+  record(cur, ci === cur.answer);
+  lastId = cur.id;
+  renderQuestion(cur, order, ci, true);
+}
+
+function next() {
+  if (exam) { if (exam.idx === exam.items.length - 1) finishExam(); else { exam.idx++; showExamItem(); } return; }
+  if (locked) nextEndless();
+}
+
+// ---- mock exam ----
+function startExam() {
+  locked = false; currentPicked = null; translationShown = false; reviewOverrides.clear();
+  const p = el.domain.value ? base().filter(q => q.domain === el.domain.value) : base();
+  if (!p.length) {
+    cur = null; order = null; locked = false; exam = null;
+    el.timer.classList.add("hidden");
+    el.card.innerHTML = `<p class="q">이 조건에 해당하는 문항이 없습니다.</p>`;
+    return;
+  }
+  const byDom = {}; for (const q of p) (byDom[q.domain] ||= []).push(q);
+  // 60 total (or the whole personal pool if smaller), 1.5 min per question.
+  const total = Math.min(60, p.length);
+  const doms = Object.entries(byDom);
+  const share = ([, qs]) => qs.length / p.length;
+  const sum = doms.reduce((a, e) => a + share(e), 0);
+  const items = [];
+  let remaining = total;
+  doms.forEach((e, i) => {
+    const n = i === doms.length - 1 ? remaining : Math.min(remaining, Math.max(1, Math.round(total * share(e) / sum)));
+    remaining -= n;
+    items.push(...shuffle(e[1].slice()).slice(0, n));
+  });
+  exam = { items: shuffle(items).map(q => ({ q, order: shuffle([0, 1, 2, 3]), picked: null })), idx: 0, endAt: Date.now() + total * 90 * 1000 };
+  el.result.classList.add("hidden");
+  el.timer.classList.remove("hidden");
+  exam.timerId = setInterval(tick, 1000); tick();
+  showExamItem();
+}
+function tick() {
+  const left = Math.max(0, exam.endAt - Date.now());
+  const m = Math.floor(left / 60000), s = Math.floor(left % 60000 / 1000);
+  el.timer.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  if (left === 0) finishExam();
+}
+function showExamItem() {
+  translationShown = false;
+  locked = false;
+  const it = exam.items[exam.idx]; currentPicked = it.picked; cur = it.q; order = it.order;
+  renderQuestion(cur, order, it.picked, false);
+}
+function snapshotAttempt(items, right) {
+  return {
+    completedAt: new Date().toISOString(),
+    examKey: el.exam.value,
+    examLabel: el.exam.selectedOptions[0].text,
+    domainContext: el.domain.value || "전체 도메인",
+    styleContext: el.style.value || "전체 유형",
+    right, total: items.length, percent: Math.round(100 * right / items.length),
+    items: items.map(it => ({ id: it.q.id, domain: it.q.domain, subtopic: it.q.subtopic || "", difficulty: it.q.difficulty, style: it.q.style || "study", question: { en: it.q.q.en, ko: it.q.q.ko }, choices: { en: it.q.choices.en.slice(), ko: it.q.choices.ko.slice() }, answer: it.q.answer, picked: it.picked, order: it.order.slice(), explain: { en: it.q.explain.en, ko: it.q.explain.ko }, ref: it.q.ref || "" }))
+  };
+}
+function renderAttempt(attempt, allShown = false) {
+  viewedAttempt = attempt; viewedAll = allShown;
+  const byDom = {};
+  for (const it of attempt.items) { const d = byDom[it.domain] ||= { r: 0, n: 0 }; d.n++; if (it.picked === it.answer) d.r++; }
+  el.result.classList.remove("hidden");
+  el.result.innerHTML = `<h2 class="${attempt.percent >= 75 ? "pass" : "fail"}">${attempt.percent}% — ${attempt.percent >= 75 ? "PASS" : "FAIL"} (합격선 75%)</h2>
+    <p>${attempt.right} / ${attempt.total} 정답 · ${esc(new Date(attempt.completedAt).toLocaleString())} · ${esc(attempt.examLabel)} · ${esc(attempt.domainContext)} · ${esc(attempt.styleContext)}</p>
+    <table><tr><th>도메인</th><th>정답</th><th>%</th></tr>${Object.entries(byDom).map(([d, v]) => `<tr><td>${esc(d)}</td><td>${v.r}/${v.n}</td><td>${Math.round(100 * v.r / v.n)}%</td></tr>`).join("")}</table>
+    <div class="review-actions"><button id="allTranslations" type="button" aria-expanded="${allShown}">${targetLanguage === "ko" ? "한국어" : "English"} 번역 ${allShown ? "숨기기" : "모두 보기"}</button><span class="status">각 문항에서도 번역을 열 수 있습니다.</span></div>
+    ${attempt.items.map((it, i) => {
+      const shown = reviewOverrides.has(i) ? reviewOverrides.get(i) : allShown;
+      const choiceHtml = it.order.map((ci, n) => `<li class="${ci === it.answer ? "ok" : ci === it.picked ? "bad" : ""}"><span class="k">${n + 1}</span>${bi(it.choices.en[ci], it.choices.ko[ci], "span", false)}</li>`).join("");
+      const picked = it.picked == null ? "무응답" : `${it.order.indexOf(it.picked) + 1}번`;
+      return `<div class="review-item${shown ? " translation-on" : ""}" data-review-index="${i}"><div class="meta"><span class="tag">${esc(it.domain)}</span><span class="tag">${esc(it.id)}</span></div><p class="q">${bi(it.question.en, it.question.ko, "span", false)}</p><ol class="choices">${choiceHtml}</ol><p class="review-answer"><b>내 답:</b> ${picked} · <b>${it.picked === it.answer ? "정답" : "정답은 " + (it.order.indexOf(it.answer) + 1) + "번"}</b></p><div class="review-actions"><button type="button" data-review-toggle aria-expanded="${shown}">${targetLanguage === "ko" ? "한국어" : "English"} 번역 ${shown ? "숨기기" : "보기"}</button></div><div class="explain show">${bi(it.explain.en, it.explain.ko, "div", false)}${it.ref ? `<a href="${esc(it.ref)}" target="_blank" rel="noopener noreferrer">${esc(it.ref)}</a>` : ""}</div></div>`;
+    }).join("")}
+    <button id="closeReview" type="button">현재 퀴즈로 돌아가기</button> <button id="again" class="primary" type="button">다시 모의고사</button>`;
+  $("#allTranslations").addEventListener("click", () => { reviewOverrides.clear(); renderAttempt(attempt, !allShown); });
+  el.result.querySelectorAll("[data-review-toggle]").forEach(b => b.addEventListener("click", () => {
+    const item = b.closest(".review-item"), i = +item.dataset.reviewIndex, shown = item.classList.contains("translation-on");
+    reviewOverrides.set(i, !shown); renderAttempt(attempt, allShown);
+  }));
+  $("#closeReview").addEventListener("click", closeHistoryView);
+  $("#again").addEventListener("click", startExam);
+  el.result.scrollIntoView({ behavior: "smooth", block: "start" });
+  $("#allTranslations").focus();
+}
+async function persistAttempt(attempt) {
+  try {
+    const id = await historyRequest("readwrite", attempt);
+    attempt.id = id; historyRecords = [attempt, ...historyRecords].sort((a, b) => b.completedAt.localeCompare(a.completedAt)); historyError = ""; renderHistory();
+    const status = $("#saveStatus"); if (status) status.textContent = "기록 저장됨";
+  } catch (e) {
+    const status = $("#saveStatus"); if (status) status.textContent = `기록 저장 실패: ${e.message} (현재 결과는 계속 볼 수 있습니다.)`;
+  }
+}
+function finishExam() {
+  if (!exam || exam.finished) return;
+  exam.finished = true;
+  clearInterval(exam.timerId); el.timer.classList.add("hidden");
+  let right = 0;
+  for (const it of exam.items) { const ok = it.picked === it.q.answer; if (ok) right++; record(it.q, ok); }
+  reviewOverrides.clear();
+  const attempt = snapshotAttempt(exam.items, right);
+  renderAttempt(attempt, false);
+  el.result.insertAdjacentHTML("afterbegin", `<p id="saveStatus" class="status">기록 저장 중…</p>`);
+  persistAttempt(attempt);
+  exam = null;
+  cur = null; order = null; currentPicked = null; locked = false;
+  el.card.innerHTML = `<p class="q">모의고사 종료. 아래 결과를 확인하세요.</p>`;
+  renderStats();
+  el.result.scrollIntoView({ behavior: "smooth" });
+}
+
+// ---- wiring ----
+function updateLanguageButtons() {
+  el.targetKo.setAttribute("aria-pressed", targetLanguage === "ko");
+  el.targetEn.setAttribute("aria-pressed", targetLanguage === "en");
+}
+function setTarget(lang) {
+  targetLanguage = lang; pref("lang", lang); updateLanguageButtons();
+  if (cur && order) renderQuestion(cur, order, exam ? exam.items[exam.idx].picked : currentPicked, exam ? false : locked);
+  if (viewedAttempt && !el.result.classList.contains("hidden")) renderAttempt(viewedAttempt, viewedAll);
+}
+function start() {
+  if (exam) { clearInterval(exam.timerId); exam = null; el.timer.classList.add("hidden"); }
+  viewedAttempt = null; el.result.classList.add("hidden");
+  loadStats(); fillDomains(); renderStats();
+  if (el.mode.value === "exam") startExam(); else nextEndless();
+}
+el.exam.addEventListener("change", () => { pref("exam", el.exam.value); el.domain.value = ""; start(); });
+el.mode.addEventListener("change", () => { pref("mode", el.mode.value); start(); });
+el.domain.addEventListener("change", start);
+el.style.addEventListener("change", () => { pref("style", el.style.value); start(); });
+el.targetKo.addEventListener("click", () => setTarget("ko"));
+el.targetEn.addEventListener("click", () => setTarget("en"));
+el.historyButton.addEventListener("click", () => {
+  const open = el.history.classList.toggle("hidden") === false;
+  el.historyButton.setAttribute("aria-expanded", open);
+  if (open) loadHistory().then(() => { el.history.scrollIntoView({ behavior: "smooth", block: "start" }); el.history.querySelector("#closeHistory")?.focus(); });
+});
+el.reset.addEventListener("click", () => { if (confirm(`${el.exam.selectedOptions[0].text} 진행 통계를 삭제할까요?`)) { localStorage.removeItem(statsKey()); start(); } });
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "SELECT" || e.target.tagName === "BUTTON") return;
+  if (viewedAttempt || !el.history.classList.contains("hidden")) return;
+  if (/^[1-4]$/.test(e.key) && cur && order) { choose(order[+e.key - 1]); e.preventDefault(); }
+  else if ((e.key === "Enter" || e.key === " ") && cur) { next(); e.preventDefault(); }
+});
+
+const savedExam = pref("exam");
+el.exam.value = ["local-kcna", "local-kcsa", "local"].includes(savedExam) ? savedExam : "local-kcna";
+el.mode.value = pref("mode") || "endless";
+targetLanguage = ["ko", "en"].includes(pref("lang")) ? pref("lang") : "ko";
+el.style.value = pref("style") || "";
+updateLanguageButtons();
+loadHistory();
+if (!Object.keys(BANKS).length) el.card.innerHTML = "<p class='q'>local/local.js 가 없습니다.</p>"; else start();
+})();
+</script>
+</body>
+</html>
