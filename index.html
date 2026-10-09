@@ -64,7 +64,7 @@ main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
 .status{color:var(--mute);font-size:13px}
 .pass{color:var(--ok)}.fail{color:var(--bad)}
 .hidden{display:none!important}
-@media(max-width:600px){.dom{grid-template-columns:1fr 90px 60px}.history-row{align-items:flex-start;flex-direction:column}}
+@media(max-width:600px){header{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:center}header h1,header .language-buttons{grid-column:1/-1}header select,header button,.actions button,.actions select{min-height:44px;padding:9px 12px;width:100%}.language-buttons button{width:auto}.dom{grid-template-columns:1fr 90px 60px}.history-row{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
