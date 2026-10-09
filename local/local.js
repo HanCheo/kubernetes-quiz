@@ -1,4 +1,4 @@
-window.QUIZ_BANKS = { local: [
+window.QUIZ_BANKS=window.QUIZ_BANKS||{};window.QUIZ_BANKS.local=[
   {
     "id": "local-001",
     "exam": "kcna",
@@ -6522,8 +6522,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is The customer misconfigured its data access; the provider's physical security does not make the object private; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 고객이 data access를 잘못 구성한 것이며 provider의 물리적 보안이 object를 비공개로 만들지는 않습니다입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The customer controlled the object-store permission and left it public. A provider's facility security does not override customer access settings.",
+      "ko": "고객이 object-store 권한을 공개로 설정했기 때문에 누구나 object를 읽을 수 있었습니다. provider의 물리적 시설 보안은 고객의 access 설정을 대신하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/overview/"
   },
@@ -6554,8 +6554,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is To use multiple independent controls so one failed control does not expose everything; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 여러 독립적인 control을 사용하여 하나가 실패해도 모든 것이 노출되지 않게 함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Defense in depth combines independent preventive, detective, and recovery controls. A single firewall, provider-only responsibility, or reduced telemetry leaves other failure paths unaddressed.",
+      "ko": "Defense in depth는 예방·탐지·복구 통제를 여러 겹으로 구성합니다. 단일 firewall이나 provider에만 의존하고 telemetry를 줄이면 다른 failure path가 남습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/overview/"
   },
@@ -6586,8 +6586,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is A virtual machine boundary; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 virtual machine 경계입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A virtual machine supplies a separate guest-kernel boundary. A process namespace, sandbox configuration without a guest kernel, or node placement constraint does not by itself create that boundary.",
+      "ko": "virtual machine은 별도의 guest-kernel 경계를 제공합니다. process namespace, guest kernel 없는 sandbox 설정과 node 배치 제약만으로는 같은 경계가 생기지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/overview/"
   },
@@ -6618,8 +6618,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is A kernel vulnerability can have broader impact across containers sharing that kernel; the other choices are adjacent but insufficient controls or evidence.",
-      "ko": "정답은 kernel을 공유하는 container 전체에 kernel vulnerability의 영향이 더 넓을 수 있습니다입니다. 다른 선택지는 인접하지만 충분하지 않은 통제 또는 evidence입니다."
+      "en": "Containers share the host kernel, so a kernel flaw can affect multiple containers that rely on it. A namespace is not a guest kernel, and a shared kernel does not provide traffic encryption.",
+      "ko": "container는 host kernel을 공유하므로 kernel flaw가 그 kernel에 의존하는 여러 container에 영향을 줄 수 있습니다. namespace는 guest kernel이 아니며 shared kernel이 traffic을 암호화하지도 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/overview/"
   },
@@ -6650,8 +6650,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is Restricting push permissions and requiring authenticated, auditable writes; the other choices are adjacent but insufficient controls or evidence.",
-      "ko": "정답은 push 권한을 제한하고 인증된 audit 가능한 write를 요구함입니다. 다른 선택지는 인접하지만 충분하지 않은 통제 또는 evidence입니다."
+      "en": "Push authorization determines which identities may replace a published tag, while authenticated audit records provide accountability. A digest, pull-only rule, or scan report does not grant that publishing control.",
+      "ko": "push authorization은 어떤 identity가 published tag를 바꿀 수 있는지 결정하고 audit record는 책임 추적을 제공합니다. digest, pull-only rule과 scan report는 publish 권한을 부여하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/containers/images/"
   },
@@ -6842,8 +6842,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Software composition analysis of dependency versions; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 dependency version의 software composition analysis입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Software composition analysis compares dependency versions with vulnerability data, which directly targets vulnerable libraries. Static analysis, dynamic testing, and signatures answer different questions.",
+      "ko": "software composition analysis는 dependency version을 vulnerability data와 비교하므로 취약 library를 직접 다룹니다. static analysis, dynamic test와 signature는 서로 다른 질문에 답합니다."
     },
     "ref": "https://owasp.org/www-project-dependency-check/"
   },
@@ -7034,8 +7034,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is Restrict metadata access and remove the workload's unnecessary network path; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 metadata access를 제한하고 workload의 불필요한 network path를 제거함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The metadata endpoint should be unreachable unless the workload needs it, and the workload should not retain unnecessary cloud permissions. Making it public increases exposure.",
+      "ko": "workload에 필요하지 않은 metadata endpoint는 접근할 수 없게 하고 불필요한 cloud 권한도 제거해야 합니다. endpoint를 공개하면 노출 범위가 커집니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7162,8 +7162,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is A secure-code review for parameterized queries and input handling; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 parameterized query와 input handling을 확인하는 secure-code review입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A secure-code review can verify parameterized queries and input handling at the point where SQL is constructed. Image scanning, endpoint tests that omit the query path, and dependency inventory do not replace that code review.",
+      "ko": "secure-code review는 SQL이 구성되는 지점의 parameterized query와 input handling을 확인할 수 있습니다. query 경로를 실행하지 않는 endpoint test나 image scan·dependency inventory만으로는 이를 대신할 수 없습니다."
     },
     "ref": "https://owasp.org/www-community/attacks/SQL_Injection"
   },
@@ -7194,8 +7194,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Fail or quarantine the candidate under documented release policy; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 documented release policy에 따라 candidate를 fail 또는 quarantine함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A critical vulnerability should block or quarantine a release candidate when policy says it is a release gate. Publishing anyway, deferring the finding, or granting privilege bypasses that gate.",
+      "ko": "policy가 release gate로 지정한 critical vulnerability라면 candidate를 block하거나 quarantine해야 합니다. 그대로 publish하거나 finding을 미루고 privilege를 주면 gate를 우회하게 됩니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7226,8 +7226,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is To identify where assumptions about identity, data, or control change; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 identity, data 또는 control에 대한 가정이 바뀌는 지점을 식별하기 위해입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A trust boundary marks a change in assumptions about identity, data, or control, so the crossing can receive focused authentication, authorization, validation, or monitoring. A diagram does not prove safety or replace those controls.",
+      "ko": "trust boundary는 identity·data·control에 대한 가정이 바뀌는 지점이므로 crossing에 authentication, authorization, validation과 monitoring을 집중할 수 있습니다. diagram은 안전을 증명하거나 통제를 대신하지 않습니다."
     },
     "ref": "https://owasp.org/www-community/Threat_Modeling"
   },
@@ -7372,22 +7372,22 @@ window.QUIZ_BANKS = { local: [
     },
     "choices": {
       "en": [
-        "To expose every Secret to authenticated clients",
-        "To make scheduling decisions faster",
-        "To provide confidentiality without replacing authorization",
+        "To reveal Secrets to any authenticated client",
+        "To change scheduler placement decisions",
+        "To encrypt traffic while leaving endpoint authentication unverified",
         "To protect confidentiality and integrity in transit and authenticate the endpoint"
       ],
       "ko": [
-        "모든 Secret을 authenticated client에 노출함",
-        "scheduling decision을 빠르게 함",
-        "authorization을 대체하지 않고 confidentiality를 제공함",
+        "모든 authenticated client에 Secret을 공개함",
+        "scheduler placement decision을 변경함",
+        "endpoint authentication을 확인하지 않고 traffic만 encryption함",
         "전송 중 confidentiality와 integrity를 보호하고 endpoint를 authenticate하기 위해"
       ]
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is To protect confidentiality and integrity in transit and authenticate the endpoint; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 전송 중 confidentiality와 integrity를 보호하고 endpoint를 authenticate하기 위해입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "TLS protects client traffic in transit and lets the client authenticate the API endpoint. It does not make Secrets readable, accelerate scheduling, or replace RBAC.",
+      "ko": "TLS는 client traffic을 전송 중 보호하고 client가 API endpoint를 확인하게 합니다. TLS는 Secret을 공개하거나 scheduling을 빠르게 하지 않으며 RBAC를 대신하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7418,8 +7418,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is To validate or mutate requests after authentication and authorization but before persistence; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 authentication과 authorization 후 persistence 전에 request를 validate하거나 mutate함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Admission runs after authentication and authorization but before persistence, where it can validate or mutate an accepted request. It is not a node process, backup system, or cloud IP allocator.",
+      "ko": "admission은 authentication과 authorization 후 persistence 전에 실행되어 request를 validate하거나 mutate합니다. node process 실행, backup 대체와 cloud IP 할당을 담당하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7450,8 +7450,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is kube-scheduler; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 kube-scheduler입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The scheduler selects a suitable node using resource and placement constraints; it does not reconcile objects, run containers, or store cluster state.",
+      "ko": "scheduler는 resource와 placement constraint를 바탕으로 적합한 node를 선택합니다. object reconciliation, container 실행과 cluster state 저장은 scheduler의 역할이 아닙니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7482,8 +7482,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is A compromised controller should not gain unrelated cluster-wide powers; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 침해된 controller가 무관한 cluster-wide 권한을 얻지 않게 하기 위해입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Limiting controller credentials narrows the blast radius if one controller is compromised. It does not disable reconciliation or require host networking.",
+      "ko": "controller credential을 제한하면 controller 하나가 침해되어도 피해 범위가 줄어듭니다. 이 설정은 reconciliation을 끄거나 host networking을 요구하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7514,8 +7514,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is A suitable node for an unscheduled Pod; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 schedule되지 않은 Pod에 적합한 node입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The scheduler binds an unscheduled Pod to a node that satisfies its requirements. Service responses, image contents, and etcd keys are managed by other components.",
+      "ko": "scheduler는 요구 조건을 만족하는 node에 schedule되지 않은 Pod를 배정합니다. Service response, image content과 etcd key는 다른 component가 관리합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7546,8 +7546,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Node affinity or node selector; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 Node affinity 또는 node selector입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Node affinity and node selectors constrain placement using node labels. Taints, topology spread, and priority influence scheduling differently but do not express this required-label match in the same way.",
+      "ko": "Node affinity와 node selector는 node label을 사용해 배치를 제한합니다. taint, topology spread와 priority도 scheduling에 영향을 주지만 required-label match를 같은 방식으로 표현하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7578,8 +7578,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is A taint repels Pods unless their toleration permits placement; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 toleration이 placement를 허용하지 않는 한 taint가 Pod를 밀어냄입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A taint repels Pods from a node unless a matching toleration permits scheduling. Taints do not encrypt storage, grant API permissions, or sign images.",
+      "ko": "taint는 일치하는 toleration이 배치를 허용하지 않는 한 node에서 Pod를 밀어냅니다. taint는 storage를 encryption하거나 API 권한을 grant하고 image에 sign하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7610,8 +7610,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is It asks the container runtime to realize the assigned Pod and reports status to the API server; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 할당된 Pod를 실현하도록 container runtime에 요청하고 API server에 status를 보고함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The kubelet asks the runtime to create the assigned Pod containers and reports their status to the API server. It does not publish the node filesystem, change RBAC globally, or edit registry metadata.",
+      "ko": "kubelet은 runtime에 할당된 Pod container 생성을 요청하고 status를 API server에 보고합니다. node filesystem 공개, global RBAC 변경과 registry metadata 편집은 kubelet의 역할이 아닙니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7642,8 +7642,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is Disable unauthenticated read-only access and require authenticated, authorized requests; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 unauthenticated read-only access를 비활성화하고 authenticated·authorized request를 요구함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Disabling the unauthenticated read-only kubelet endpoint prevents anonymous clients from obtaining node information or invoking an exposed endpoint. The safer configuration requires authenticated and authorized access.",
+      "ko": "unauthenticated read-only kubelet endpoint를 끄면 anonymous client가 node 정보를 얻거나 노출된 endpoint를 호출하지 못합니다. 안전한 설정은 authentication과 authorization을 요구합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7706,8 +7706,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is An interface for creating and managing Pod containers and their images; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 Pod container와 image를 생성하고 관리하는 interface입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "CRI gives the kubelet a runtime interface for creating and managing Pod containers and images. It is not a replacement API server, global RBAC editor, or billing interface.",
+      "ko": "CRI는 kubelet이 Pod container와 image를 생성·관리하도록 runtime interface를 제공합니다. CRI는 API server 대체물, global RBAC editor나 billing interface가 아닙니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7738,8 +7738,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is A runtime or kernel escape could give the process greater host impact; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 runtime 또는 kernel escape가 process에 더 큰 host impact를 줄 수 있기 때문입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A root process has a larger starting privilege set, so a runtime or kernel escape can expose more of the host. Root does not encrypt the node, prevent file access, or block networking.",
+      "ko": "root process는 더 큰 기본 권한을 가지므로 runtime이나 kernel escape가 발생하면 host 영향이 커질 수 있습니다. root가 node를 encryption하거나 file access와 network를 차단하지는 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7802,8 +7802,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is A compromised application is less likely to control the runtime and launch privileged containers; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 침해된 application이 runtime을 제어하고 privileged container를 실행할 가능성이 낮아짐입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Keeping the runtime socket away from application containers reduces the chance that a compromised process can issue runtime commands to launch a privileged container. It does not remove image vulnerabilities or alter scheduler checks.",
+      "ko": "runtime socket을 application container에서 분리하면 침해된 process가 runtime command를 실행해 privileged container를 시작할 가능성이 줄어듭니다. image vulnerability를 없애거나 scheduler check를 바꾸지는 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7884,22 +7884,22 @@ window.QUIZ_BANKS = { local: [
     },
     "choices": {
       "en": [
-        "It limits the Pod to localhost only",
-        "It creates a guest VM for the Pod",
+        "It isolates the Pod to localhost only",
+        "It gives the Pod a separate guest kernel",
         "It encrypts every Service connection",
         "It places the Pod in the node network namespace and can increase exposure"
       ],
       "ko": [
-        "Pod를 localhost만 사용하도록 제한함",
-        "Pod를 위한 guest VM을 생성함",
+        "Pod를 localhost에만 격리함",
+        "Pod에 별도의 guest kernel을 제공함",
         "모든 Service connection을 encryption함",
         "Pod를 node network namespace에 배치하여 노출을 늘릴 수 있음"
       ]
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is It places the Pod in the node network namespace and can increase exposure; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 Pod를 node network namespace에 배치하여 노출을 늘릴 수 있음입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "hostNetwork places the Pod in the node's network namespace, so node-bound ports and traffic may become reachable. It does not create a VM, encrypt connections, or limit the Pod to localhost.",
+      "ko": "hostNetwork는 Pod를 node network namespace에 배치하므로 node port와 traffic에 접근할 가능성이 커집니다. VM을 만들거나 connection을 encryption하고 localhost로 제한하지는 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -7962,8 +7962,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is A compromised process could alter node binaries, configuration, or credentials; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 침해된 process가 node binary, configuration 또는 credential을 변경할 수 있기 때문입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A read-write host root mount can let a compromised process alter node binaries, configuration, or credentials outside normal volume isolation. It is not required for non-root processes and does not disable Service discovery.",
+      "ko": "read-write host root mount는 침해된 process가 일반적인 volume isolation 밖의 node binary·configuration·credential을 바꾸게 할 수 있습니다. non-root process에 필요하지 않으며 Service discovery를 끄지도 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8058,8 +8058,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is To protect data in transit and prevent unauthorized members or clients from impersonating trusted endpoints; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 전송 중 data를 보호하고 unauthorized member 또는 client가 trusted endpoint를 impersonate하지 못하게 함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Authenticated TLS encrypts etcd client and peer traffic and verifies that the other endpoint is an authorized member. It does not schedule Pods, replace backups, or grant every controller read access.",
+      "ko": "authenticated TLS는 etcd client와 peer traffic을 encryption하고 상대 endpoint가 authorized member인지 확인합니다. Pod를 schedule하거나 backup을 대신하고 모든 controller에 read access를 주지는 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8122,8 +8122,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is Pod networking and, when supported, enforcement of NetworkPolicy; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 Pod networking과 지원하는 경우 NetworkPolicy enforcement입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A CNI provides Pod networking and, when implemented, enforces NetworkPolicy in the data path. Signing keys, audit policies, and etcd encryption keys are separate controls.",
+      "ko": "CNI는 Pod networking을 제공하고 구현된 경우 data path에서 NetworkPolicy를 enforce합니다. signing key, audit policy와 etcd encryption key는 별도의 control입니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8154,8 +8154,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is The object may exist without restricting traffic; enforcement depends on the network plugin; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 object는 존재해도 traffic을 제한하지 않을 수 있으며 enforcement는 network plugin에 달려 있음입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A NetworkPolicy object can be stored even when the CNI ignores enforcement, so packets may remain unrestricted. The API server and scheduler do not automatically filter or encrypt data-plane traffic.",
+      "ko": "CNI가 enforcement를 지원하지 않으면 NetworkPolicy object는 저장되어도 packet이 제한되지 않을 수 있습니다. API server와 scheduler가 data-plane traffic을 자동 filtering하거나 encryption하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/services-networking/network-policies/"
   },
@@ -8186,8 +8186,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is A default-deny NetworkPolicy with explicit allowed paths; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 명시적으로 허용한 경로가 있는 default-deny NetworkPolicy입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A default-deny policy blocks traffic to selected Pods unless an applicable policy explicitly allows the path. Shared host paths, host networking, and one admin identity increase rather than reduce cross-tier movement.",
+      "ko": "default-deny policy는 적용 가능한 policy가 경로를 명시적으로 허용하지 않는 한 선택된 Pod로의 traffic을 막습니다. shared hostPath, hostNetwork와 단일 admin identity는 tier 간 이동 위험을 줄이지 않고 키웁니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8250,8 +8250,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is They limit where and how long a token is accepted; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 token이 어디서 얼마나 오래 허용되는지 제한함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Audience restricts which recipient may accept a ServiceAccount token, and expiration limits its lifetime, reducing replay scope. These claims do not grant namespaces or replace authorization.",
+      "ko": "audience는 ServiceAccount token을 받아들일 recipient를 제한하고 expiration은 lifetime을 줄여 replay 범위를 낮춥니다. 이 claim은 namespace access를 주거나 authorization을 대신하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8314,8 +8314,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is It provides least privilege and attributable audit records; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 least privilege와 추적 가능한 audit record를 제공함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A named low-privilege identity limits permissions and lets audit events attribute actions to a person or workload. A shared admin account grants broad access and obscures who performed the action.",
+      "ko": "이름이 있는 low-privilege identity는 권한을 제한하고 audit event가 action을 사람이나 workload에 귀속하게 합니다. shared admin account는 권한이 넓고 누가 action을 수행했는지 흐리게 합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8410,8 +8410,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is It gives a Pod access to selected host filesystem paths outside normal volume isolation; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 일반적인 volume isolation 밖에서 Pod가 선택한 host filesystem path에 접근하게 함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "hostPath exposes selected node filesystem paths to the Pod, bypassing ordinary volume isolation and potentially exposing credentials or binaries. RBAC alone does not remove that filesystem access.",
+      "ko": "hostPath는 선택된 node filesystem path를 Pod에 노출해 일반적인 volume isolation을 우회하고 credential이나 binary를 노출할 수 있습니다. RBAC만으로 해당 filesystem access가 제거되지는 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8474,8 +8474,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is kube-apiserver; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 kube-apiserver입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The kube-apiserver validates the API request and object schema before accepted state is persisted. Kubelet, kube-proxy, and etcd perform local execution, networking, or storage roles instead.",
+      "ko": "kube-apiserver는 accepted state가 persist되기 전에 API request와 object schema를 검증합니다. kubelet, kube-proxy와 etcd는 각각 local 실행·networking·storage 역할을 담당합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8506,8 +8506,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is They add or remove specific Linux privileges from the process; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 process에서 특정 Linux privilege를 추가하거나 제거함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Capabilities add or drop specific Linux privileges for a process, allowing a workload to run with a smaller privilege set. They do not replace certificates, select regions, or choose Service traffic.",
+      "ko": "capability는 process의 특정 Linux privilege를 추가하거나 제거해 workload의 privilege set을 줄일 수 있습니다. certificate를 대체하거나 region과 Service traffic을 선택하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8538,8 +8538,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is Running configured probes and reporting container status; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 구성된 probe를 실행하고 container status를 보고함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The kubelet runs configured liveness and readiness probes and reports container status, giving operators signals about unhealthy behavior. Signing images and changing cloud firewall rules are separate controls.",
+      "ko": "kubelet은 구성된 liveness·readiness probe를 실행하고 container status를 보고해 unhealthy behavior 신호를 제공합니다. image signing과 cloud firewall 변경은 별도의 control입니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -8634,8 +8634,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is Deletion may remove backing data, while retention may preserve sensitive data that needs controlled cleanup; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 deletion은 backing data를 제거할 수 있고 retention은 통제된 cleanup이 필요한 sensitive data를 보존할 수 있기 때문입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A reclaim policy determines whether deleting a claim can delete backing storage or retain it for controlled cleanup. It does not encrypt data, authenticate API requests, or select a Pod security profile.",
+      "ko": "reclaim policy는 claim 삭제 시 backing storage를 함께 삭제할지 보존해 통제된 cleanup을 할지 결정합니다. data를 encryption하거나 API request를 authentication하고 Pod profile을 선택하지는 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/storage/storage-classes/"
   },
@@ -8666,8 +8666,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is The workload identity and namespace are authorized for that volume; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 workload identity와 namespace가 해당 volume에 authorization되었는지입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The operator should verify that the workload identity and namespace are authorized to mount the volume, limiting data exposure to intended consumers. HostPID, a short name, or universal read-write access is not that authorization check.",
+      "ko": "operator는 workload identity와 namespace가 volume mount 권한을 갖는지 확인해 data를 의도한 consumer로 제한해야 합니다. hostPID, 짧은 name과 모든 namespace의 read-write access는 authorization check가 아닙니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/storage/storage-classes/"
   },
@@ -8730,8 +8730,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is audit; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 audit입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "PSA audit mode records a policy violation while still admitting the Pod. Enforce rejects it, warn reports to the submitting user, and a custom silent mode would not report the violation.",
+      "ko": "PSA audit mode는 Pod를 admission하면서 policy violation을 기록합니다. enforce는 거부하고 warn은 제출 user에게 경고하며 silent custom mode는 violation을 보고하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/pod-security-standards/"
   },
@@ -8762,8 +8762,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is It returns a warning to the submitting user while allowing admission; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 admission을 허용하면서 제출 user에게 warning을 반환함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Warn mode returns a warning to the submitting user but permits admission. Enforce rejects a violating request, while audit records the violation without changing the response.",
+      "ko": "warn mode는 제출 user에게 warning을 반환하면서 admission을 허용합니다. enforce는 violation request를 거부하고 audit는 response를 바꾸지 않고 violation을 기록합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/pod-security-standards/"
   },
@@ -8794,8 +8794,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is Future admissions are checked against Restricted; existing Pods are not retroactively evicted by that label change; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 향후 admission은 Restricted에 대해 check되며 label 변경만으로 existing Pod를 소급 eviction하지 않음입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Changing the enforce label applies Restricted checks to future admissions; it does not evict already-running Pods solely because the label changed. Existing Pods need a separate remediation decision.",
+      "ko": "enforce label을 바꾸면 이후 admission에 Restricted check가 적용되지만 label 변경만으로 이미 실행 중인 Pod를 eviction하지 않습니다. Existing Pod에는 별도 remediation 판단이 필요합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/pod-security-admission/"
   },
@@ -8890,8 +8890,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is Authentication identifies a principal; authorization decides what it may do; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 authentication은 principal을 식별하고 authorization은 수행할 수 있는 일을 결정함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Authentication establishes which principal sent a request; authorization evaluates that principal's permitted actions. Encryption is provided by transport security, not by authorization.",
+      "ko": "authentication은 request를 보낸 principal을 확인하고 authorization은 그 principal의 허용된 action을 판단합니다. encryption은 authorization이 아니라 transport security가 제공합니다."
     },
     "ref": "https://kubernetes.io/docs/reference/access-authn-authz/authentication/"
   },
@@ -8922,8 +8922,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is They reduce the replay window and avoid a long-lived Secret object by default; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 replay window를 줄이고 기본적으로 장기 Secret object를 피함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Projected ServiceAccount tokens expire sooner and are delivered without creating a long-lived token Secret by default, reducing replay exposure. They still carry identity and are checked by the API server.",
+      "ko": "projected ServiceAccount token은 더 빨리 만료되고 기본적으로 장기 token Secret을 만들지 않아 replay 노출을 줄입니다. 그래도 identity를 포함하며 API server가 검증합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -9210,8 +9210,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Mount only required keys into a narrowly scoped workload and limit who can read the Secret; the other options are adjacent controls or effects but do not answer the question.",
-      "ko": "정답은 필요한 key만 좁은 범위의 workload에 mount하고 Secret을 read할 수 있는 주체를 제한함입니다. 다른 선택지는 인접한 통제 또는 효과이지만 질문의 답은 아닙니다."
+      "en": "Mounting only required Secret keys and limiting read permissions reduces both the data exposed to a workload and the identities that can retrieve it. Putting Secrets in an image or granting every namespace access broadens exposure.",
+      "ko": "필요한 Secret key만 mount하고 read 권한을 제한하면 workload에 노출되는 data와 이를 읽을 수 있는 identity가 함께 줄어듭니다. Secret을 image에 넣거나 모든 namespace에 권한을 주면 노출이 커집니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/configuration/secret/"
   },
@@ -9306,8 +9306,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is Allowed traffic is additive across the selected policies; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 선택된 policy 전체에서 allowed traffic이 additive로 결합됨입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "NetworkPolicy rules from policies selecting the same Pod are additive, so a flow allowed by any applicable policy can be permitted. The last-created or most restrictive object does not replace the others.",
+      "ko": "같은 Pod를 선택한 NetworkPolicy의 rule은 additive이므로 적용 가능한 policy 중 하나가 허용한 flow는 허용될 수 있습니다. 마지막 policy나 가장 restrictive한 object가 나머지를 대체하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/services-networking/network-policies/"
   },
@@ -9338,8 +9338,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Implement the policy in the data plane; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 data plane에서 policy를 구현함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "An enforcing CNI must translate the NetworkPolicy into data-plane filtering rules; storing the object in the API server alone does not filter packets. Image signing and RBAC grant are unrelated controls.",
+      "ko": "enforcing CNI는 NetworkPolicy를 data-plane filtering rule로 변환해야 packet을 제한할 수 있습니다. API server에 object를 저장하는 것만으로는 packet이 filtering되지 않으며 image signing과 RBAC grant는 별개입니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/services-networking/network-policies/"
   },
@@ -9370,8 +9370,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is Client egress must be allowed and database ingress must allow the client; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 client egress가 허용되고 database ingress가 client를 허용해야 함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The client must be allowed to send traffic and the database must allow that client in ingress; either direction can block the connection. TLS or a Service label alone does not satisfy NetworkPolicy.",
+      "ko": "client가 traffic을 보내도록 허용되고 database ingress가 해당 client를 허용해야 하며 어느 한쪽이 막아도 connection은 실패합니다. TLS나 Service label만으로는 NetworkPolicy 조건을 충족하지 못합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/services-networking/network-policies/"
   },
@@ -9466,8 +9466,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Audit logs could otherwise duplicate sensitive values into another data store; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 audit log가 sensitive value를 다른 data store에 복제할 수 있기 때문입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Secret values in audit events can be copied into external log storage, creating another disclosure path. Omitting the response body reduces that duplicate exposure without disabling authentication or every audit event.",
+      "ko": "audit event의 Secret value는 external log storage로 복사되어 별도의 disclosure path가 될 수 있습니다. response body를 제외하면 authentication이나 모든 audit event를 끄지 않고 중복 노출을 줄입니다."
     },
     "ref": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/"
   },
@@ -9498,8 +9498,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is It preserves evidence if the cluster or its local log files are compromised; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 cluster 또는 local log file이 침해되어도 evidence를 보존함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "External protected storage preserves audit evidence if an attacker alters the cluster or deletes local logs. It does not authorize requests, prevent attacks before detection, or keep Secrets only in memory.",
+      "ko": "protected external storage는 attacker가 cluster를 변경하거나 local log를 삭제해도 audit evidence를 보존합니다. request를 authorized로 만들거나 attack을 사전에 막고 Secret을 memory에만 보관하지는 않습니다."
     },
     "ref": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/"
   },
@@ -9530,8 +9530,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is The authenticated user or ServiceAccount identity; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 authenticated user 또는 ServiceAccount identity입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The audit identity identifies which human user or ServiceAccount submitted the change, enabling attribution and follow-up. Node temperature, a label alone, and image layer count do not identify the requester.",
+      "ko": "audit identity는 어떤 human user나 ServiceAccount가 change를 제출했는지 보여주므로 attribution과 후속 조치가 가능합니다. node temperature, label만 있는 정보와 image layer count는 requester를 식별하지 못합니다."
     },
     "ref": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/"
   },
@@ -9658,8 +9658,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is It limits persistence of unauthorized changes inside the container; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 container 내부 unauthorized change의 persistence를 제한함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A read-only root filesystem prevents a process from leaving persistent unauthorized changes in the container layer. It does not block networking, grant host root, or validate an image signature.",
+      "ko": "read-only root filesystem은 process가 container layer에 unauthorized change를 지속해서 남기는 것을 막습니다. network를 차단하거나 host root를 주고 image signature를 검증하지는 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -9722,8 +9722,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is No; a namespaced Role grants only through a binding in its namespace; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 아니요. namespaced Role은 해당 namespace의 binding을 통해서만 grant됩니다입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A Role is namespaced and grants permissions only through a binding in that namespace; it cannot by itself authorize access in namespace b. A separate ClusterRoleBinding would be an additional grant, not a property of this Role alone.",
+      "ko": "Role은 namespace 범위이며 해당 namespace의 binding을 통해서만 권한을 줍니다. 따라서 이 Role만으로 namespace b에 access할 수 없고 별도 ClusterRoleBinding은 추가 grant입니다."
     },
     "ref": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
   },
@@ -9754,8 +9754,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is An RBAC rule that omits get and list on Secrets; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 Secret에 대한 get과 list를 omit한 RBAC rule입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Omitting `get` and `list` for Secrets from the ServiceAccount's RBAC rules prevents those API reads. NetworkPolicy, admission rejection, and encryption at rest address traffic, object admission, or storage confidentiality instead.",
+      "ko": "ServiceAccount의 RBAC rule에서 Secret의 `get`과 `list`를 제외하면 해당 API read를 막을 수 있습니다. NetworkPolicy, admission rejection과 at-rest encryption은 각각 traffic·admission·storage confidentiality를 다룹니다."
     },
     "ref": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
   },
@@ -9818,8 +9818,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is Ingress to selected Pods is denied unless another applicable policy allows it; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 다른 적용 policy가 허용하지 않는 한 선택된 Pod로의 ingress가 deny됨입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A default-deny ingress policy selects the Pods and blocks ingress unless another applicable policy allows it. It does not disable the API server, deny all egress, or encrypt packets.",
+      "ko": "default-deny ingress policy는 선택한 Pod로 들어오는 traffic을 막고 다른 적용 policy가 허용할 때만 통과시킵니다. API server를 끄거나 모든 egress를 deny하고 packet을 encryption하지는 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/services-networking/network-policies/"
   },
@@ -9850,8 +9850,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Logs can contain identities, object metadata, and operationally sensitive details; the other options are adjacent controls or effects but do not answer the question.",
-      "ko": "정답은 log에 identity, object metadata와 operation상 sensitive detail이 포함될 수 있기 때문입니다. 다른 선택지는 인접한 통제 또는 효과이지만 질문의 답은 아닙니다."
+      "en": "Audit logs can expose requester identities, object metadata, and sensitive operational details, so access to the logs needs protection. Restricting logs does not stop the API server or make logs useless.",
+      "ko": "audit log에는 requester identity, object metadata와 민감한 운영 detail이 포함될 수 있으므로 log access를 보호해야 합니다. log 제한은 API server를 중지시키지 않으며 log의 유용성도 없애지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/"
   },
@@ -9978,8 +9978,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is An explicit egress allowance for the DNS destination and port; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 DNS destination과 port에 대한 명시적 egress allowance입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A deny-by-default egress policy needs an explicit rule for the DNS destination and port, commonly UDP 53, before name resolution can work. A client ingress rule or mismatched TCP/443 rule does not permit that egress.",
+      "ko": "deny-by-default egress policy에서는 name resolution 전에 DNS destination과 port(일반적으로 UDP 53)를 명시적으로 허용해야 합니다. client ingress rule이나 맞지 않는 TCP/443 rule은 해당 egress를 허용하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/services-networking/network-policies/"
   },
@@ -10042,8 +10042,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is A client request entering the API server; the other options are adjacent controls or effects but do not answer the question.",
-      "ko": "client request가 API server에 들어오는 과정은 신뢰 가정과 경계가 바뀌는 대표적인 crossing입니다."
+      "en": "A client request entering the API server crosses from the client's trust assumptions into the API server's security boundary. Local file reads within one workload do not cross that external boundary.",
+      "ko": "client request가 API server에 들어오면 client의 trust 가정에서 API server의 보안 경계로 넘어갑니다. 같은 workload 안에서 local file이나 mounted volume을 읽는 동작은 외부 경계를 넘지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10074,8 +10074,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is It exposes components, flows, and trust boundaries to review; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 component, flow와 trust boundary를 review에 드러냄입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The diagram makes components, data flows, and trust-boundary crossings visible for review. It does not replace testing, prove trust, or generate NetworkPolicy automatically.",
+      "ko": "diagram은 component, data flow와 trust-boundary crossing을 review할 수 있게 드러냅니다. testing을 대신하거나 trust를 증명하고 NetworkPolicy를 자동 생성하지는 않습니다."
     },
     "ref": "https://owasp.org/www-community/Threat_Modeling"
   },
@@ -10106,8 +10106,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is A thief of the disk or snapshot may read retained data; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 disk 또는 snapshot을 훔친 사람이 retained data를 읽을 수 있음입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Without encryption at rest, someone who obtains the disk or a snapshot can read retained database bytes. A restart does not delete every volume, and a storage class does not guarantee encryption without its provider settings.",
+      "ko": "at-rest encryption이 없으면 disk나 snapshot을 얻은 사람이 저장된 database byte를 읽을 수 있습니다. restart가 모든 volume을 삭제하지 않으며 storage class만으로 encryption이 보장되지도 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10170,8 +10170,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is A flood consumes all available API-server capacity; the other options are adjacent controls or effects but do not answer the question.",
-      "ko": "flood로 API-server capacity를 소모하는 것은 정상 사용을 막는 DoS입니다. 나머지는 제한, eviction 또는 관측 pipeline 동작입니다."
+      "en": "A flood that consumes all API-server capacity prevents legitimate requests from being served, which is denial of service. A 429 response or log backpressure is a control or downstream symptom rather than the flood itself.",
+      "ko": "API-server capacity를 모두 소모하는 flood는 정상 request 처리를 막으므로 denial of service입니다. 429 response와 log backpressure는 각각 제한 동작과 downstream 증상입니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10234,8 +10234,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is A memory limit on the container; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 container의 memory 제한입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A container memory limit bounds the memory it may consume and helps prevent one workload from exhausting node memory. CPU limits, priority, and ResourceQuota govern different resources or scopes.",
+      "ko": "container memory limit은 사용할 수 있는 memory를 제한해 한 workload가 node memory를 고갈시키는 것을 줄입니다. CPU limit, priority와 ResourceQuota는 다른 resource나 scope를 다룹니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10266,8 +10266,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Its entrypoint runs attacker-controlled instructions when the container starts; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 container 시작 시 entrypoint가 attacker-controlled instruction을 실행함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The image entrypoint is executed when the container starts, so malicious instructions can run before the application serves traffic. Admission, seccomp, and NetworkPolicy can reduce risk but do not themselves explain how the image's code starts.",
+      "ko": "container가 시작될 때 image entrypoint가 실행되므로 application이 traffic을 처리하기 전에도 malicious instruction이 동작할 수 있습니다. admission, seccomp와 NetworkPolicy는 위험을 줄이는 control이지 image code가 시작되는 방식 자체는 아닙니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10394,8 +10394,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is TLS with certificate validation and restricted endpoints; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 certificate validation과 제한된 endpoint를 사용하는 TLS입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "TLS encrypts the API traffic and certificate validation detects an impostor endpoint; restricting reachable endpoints reduces who can attempt the connection. Authentication alone without encryption leaves traffic exposed.",
+      "ko": "TLS는 API traffic을 encryption하고 certificate validation은 위조 endpoint를 감지하며 endpoint 제한은 연결을 시도할 주체를 줄입니다. encryption 없는 authentication만으로는 traffic이 노출될 수 있습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10490,8 +10490,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is A process uses a kernel or set-user-ID flaw to gain permissions beyond its original identity; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 process가 kernel 또는 set-user-ID flaw로 원래 identity보다 큰 권한을 얻음입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Privilege escalation occurs when a process exploits a kernel or set-user-ID flaw to obtain permissions beyond its original identity. Reading an already permitted Secret or using an assigned identity is not an escalation.",
+      "ko": "privilege escalation은 process가 kernel이나 set-user-ID flaw를 악용해 원래 identity보다 큰 권한을 얻는 경우입니다. 이미 허용된 Secret을 읽거나 할당된 identity를 사용하는 것은 escalation이 아닙니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10618,8 +10618,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is Moving from one compromised workload or identity to other resources; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 침해된 workload 또는 identity에서 다른 resource로 이동함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Lateral movement is movement from a compromised workload or identity into other resources, often using discovered credentials or reachable services. Local environment changes and ordinary same-namespace access do not by themselves show that movement.",
+      "ko": "lateral movement는 침해된 workload나 identity에서 발견한 credential 또는 reachable service를 이용해 다른 resource로 이동하는 것입니다. local environment 변경과 정상적인 같은 namespace access만으로는 이를 의미하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10650,8 +10650,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Network segmentation plus scoped identity and namespace policy; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 network segmentation과 범위d identity 및 namespace policy입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Network segmentation limits reachable peers, while scoped identity and namespace policy limit what a discovered credential can read or change. Shared hostNetwork, cluster-admin, and broad discovery permissions increase tenant visibility.",
+      "ko": "network segmentation은 접근 가능한 peer를 줄이고 scoped identity와 namespace policy는 발견된 credential의 read·change 범위를 제한합니다. shared hostNetwork, cluster-admin과 broad discovery 권한은 tenant visibility를 키웁니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10682,8 +10682,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is Confidentiality prevents unauthorized disclosure; integrity protects against unauthorized change; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 confidentiality는 unauthorized disclosure를 막고 integrity는 unauthorized change를 보호함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Confidentiality prevents people without permission from learning data; integrity detects or prevents unauthorized modification. Availability is a separate property concerning continued access.",
+      "ko": "confidentiality는 권한 없는 주체가 data를 알아내지 못하게 하고 integrity는 unauthorized modification을 방지하거나 감지합니다. availability는 지속적인 access에 관한 별도의 property입니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -10810,8 +10810,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is Repeated attempts to create privileged Pods or mount host paths; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 privileged Pod를 생성하거나 host path를 mount하려는 반복 시도입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Repeated attempts to create privileged Pods or mount host paths indicate probing for a path to host-level privileges. Normal ConfigMap reads, compliant updates, and completed backups are not escalation probes.",
+      "ko": "privileged Pod 생성이나 host path mount를 반복 시도하면 host-level privilege 경로를 탐색하는 신호일 수 있습니다. 정상 ConfigMap read, 정책을 지킨 update와 완료된 backup은 escalation probe가 아닙니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -11002,8 +11002,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is Push or write permission; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 push 또는 write 권한입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Push or write permission is what lets a principal publish or replace image content. Pull permission only reads, while delete and repository administration are separate privileges that should also be scoped.",
+      "ko": "push 또는 write 권한이 있어야 principal이 image content를 publish하거나 교체할 수 있습니다. pull은 read만 허용하며 delete와 repository administration은 별도로 범위를 제한해야 하는 권한입니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/containers/images/"
   },
@@ -11098,8 +11098,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is A metric; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 metric입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A metric is a numeric time series, so latency thresholds can be evaluated over time. A trace span shows one request path, an audit policy defines collection, and a log line is an individual event.",
+      "ko": "metric은 numeric time series이므로 시간에 따른 latency threshold를 평가할 수 있습니다. trace span은 한 request path를 보여주고 audit policy는 수집 규칙이며 log line은 개별 event입니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -11226,8 +11226,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is It identifies transport peers but does not decide which business operation a peer may perform; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 transport peer를 식별하지만 어떤 business operation을 수행할지는 결정하지 않음입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "mTLS authenticates the transport peers and encrypts their connection, but it does not know whether that peer may read or mutate a particular business object. Application authorization must make that decision.",
+      "ko": "mTLS는 transport peer를 authentication하고 connection을 encryption하지만 해당 peer가 특정 business object를 read·mutate할 수 있는지는 결정하지 않습니다. 그 판단은 application authorization이 해야 합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/cluster-administration/addons/"
   },
@@ -11322,8 +11322,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 3,
     "explain": {
-      "en": "The correct choice is A NetworkPolicy selecting allowed source namespaces and destination Pods; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 허용된 source namespace와 destination Pod를 선택하는 NetworkPolicy입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A NetworkPolicy can select the allowed source namespaces and destination Pods to control network connectivity. RoleBinding controls API permissions, Ingress routes HTTP, and a default deny without an allowance blocks the intended client.",
+      "ko": "NetworkPolicy는 허용된 source namespace와 destination Pod를 선택해 network connectivity를 제어합니다. RoleBinding은 API 권한을 다루고 Ingress는 HTTP를 route하며 allowance 없는 default deny는 의도한 client도 차단합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/services-networking/"
   },
@@ -11642,8 +11642,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is It restricts who can read or write artifacts and supports auditability; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 artifact를 read 또는 write할 주체를 제한하고 auditability를 지원함입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Repository permissions determine which identities may read or write artifacts and leave an audit trail of those actions. They do not prove artifact safety or eliminate signature checks, and immutability needs explicit registry policy.",
+      "ko": "repository permission은 어떤 identity가 artifact를 read·write할 수 있는지 결정하고 그 action의 audit trail을 남깁니다. 이것만으로 artifact 안전성이 증명되거나 signature check가 불필요해지지 않으며 immutability에는 별도 registry policy가 필요합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/containers/images/"
   },
@@ -11674,8 +11674,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 2,
     "explain": {
-      "en": "The correct choice is Through certificates or tokens issued by a trust system; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 trust system이 발급한 certificate 또는 token을 통해입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "A service mesh can issue workload certificates or tokens from a trusted identity system and present them during connection setup. A Service name, namespace label, or source IP alone is not cryptographic identity.",
+      "ko": "service mesh는 trusted identity system에서 발급한 workload certificate나 token을 connection setup에 사용합니다. Service name, namespace label과 source IP만으로는 cryptographic identity가 되지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/cluster-administration/addons/"
   },
@@ -11770,8 +11770,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is Alert on audit events for Secret reads by unexpected identities or namespaces; the other options are adjacent controls or effects but do not answer the question.",
-      "ko": "정답은 예상하지 않은 identity 또는 namespace의 Secret read 감사 event에 alert함입니다. 다른 선택지는 인접한 통제 또는 효과이지만 질문의 답은 아닙니다."
+      "en": "Audit events include the requesting identity and namespace, so an alert can distinguish an unexpected Secret read from an approved one. CPU, digest, or identity-blind alerts do not provide that attribution.",
+      "ko": "audit event에는 request identity와 namespace가 포함되므로 승인된 read와 예상 밖 Secret read를 구분해 alert할 수 있습니다. CPU·digest alert나 identity를 확인하지 않는 alert는 attribution을 제공하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -11866,8 +11866,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Signed build provenance checked against an allowed identity; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 allowed identity에 대해 check하는 signed build provenance입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Signed build provenance binds the release to an attested pipeline identity, which is the evidence needed for approved-builder verification. An SBOM, vulnerability report, or digest describes contents or identity differently.",
+      "ko": "signed build provenance는 release를 attested pipeline identity에 연결하므로 approved builder 검증에 필요한 evidence를 제공합니다. SBOM, vulnerability report와 digest는 각각 content나 artifact identity에 관한 다른 정보를 제공합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/"
   },
@@ -11898,8 +11898,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is A dated export of Roles and RoleBindings with reviewers, decisions, and remediation tickets; the other choices are adjacent but insufficient controls or evidence.",
-      "ko": "정답은 날짜, reviewer, decision과 remediation ticket이 포함된 Role 및 RoleBinding export입니다. 다른 선택지는 인접하지만 충분하지 않은 통제 또는 evidence입니다."
+      "en": "A dated export plus reviewer decisions and remediation tickets shows that access was evaluated and acted upon. A current configuration or undated authorization output proves setup, not review.",
+      "ko": "날짜가 있는 export에 reviewer decision과 remediation ticket이 함께 있으면 access를 평가하고 조치했음을 보여줍니다. current configuration이나 날짜 없는 authorization output은 설정만 증명할 뿐 review를 증명하지 않습니다."
     },
     "ref": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
   },
@@ -11930,8 +11930,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is A dated `kubectl auth can-i get secrets` result for the relevant ServiceAccount, plus the applied RoleBinding; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 해당 ServiceAccount에 대한 날짜가 있는 `kubectl auth can-i get secrets` 결과와 적용된 RoleBinding입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "The dated `auth can-i` result tests effective permission for the specific ServiceAccount, and the RoleBinding explains the grant in force. A manifest or audit policy alone does not prove the denied operation.",
+      "ko": "날짜가 있는 `auth can-i` 결과는 특정 ServiceAccount의 effective permission을 테스트하고 RoleBinding은 적용된 grant를 설명합니다. manifest나 audit policy만으로는 거부된 operation을 증명할 수 없습니다."
     },
     "ref": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
   },
@@ -12058,8 +12058,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is An SBOM attached to the image or release record; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 image 또는 release 기록에 연결된 SBOM입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "An SBOM lists the libraries and versions packaged in the image, giving auditors an inventory to review. Provenance, scan summaries, and signature results answer origin or risk questions but do not replace that inventory.",
+      "ko": "SBOM은 image에 포함된 library와 version을 나열해 auditor가 검토할 inventory를 제공합니다. provenance, scan summary와 signature result는 origin이나 risk에 관한 다른 질문에 답합니다."
     },
     "ref": "https://slsa.dev/spec/v1.2/"
   },
@@ -12154,8 +12154,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is Versioned policy tests run against manifests in the delivery workflow; the other options describe adjacent but different controls or effects.",
-      "ko": "정답은 delivery workflow에서 manifest에 대해 실행되는 버전 관리된 policy test입니다. 다른 선택지는 인접하지만 서로 다른 통제 또는 효과를 설명합니다."
+      "en": "Versioned policy tests run against versioned manifests make admission decisions repeatable and reviewable across releases. A one-time check, outside approval, or mutable unversioned policy cannot reproduce the same input reliably.",
+      "ko": "버전 관리된 manifest에 versioned policy test를 실행하면 release마다 admission decision을 반복하고 review할 수 있습니다. 일회성 check나 mutable unversioned policy는 같은 input을 안정적으로 재현하지 못합니다."
     },
     "ref": "https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/"
   },
@@ -12218,8 +12218,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is The control description, responsible role, evidence location, and review cadence; the other options describe adjacent but different controls or effects.",
-      "ko": "담당자는 Secret 보호를 확인하는 방법, evidence 위치와 재검토 시점을 유지해야 합니다. 다른 선택지는 일부 자료이지만 책임과 검토 주기를 완성하지 못합니다."
+      "en": "An auditable control record names what protects the Secret, who owns it, where evidence is stored, and when it is reviewed. A configuration, Role, or dashboard alone omits ownership or proof of the control test.",
+      "ko": "audit 가능한 control record에는 Secret을 어떻게 보호하는지, 담당자, evidence 위치와 review 시점을 적습니다. configuration·Role·dashboard만으로는 담당자나 control test evidence가 빠집니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/configuration/secret/"
   },
@@ -12282,8 +12282,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 0,
     "explain": {
-      "en": "The correct choice is A named owner, namespace and rule scope, expiry, approval, and compensating controls; the other choices are adjacent but insufficient controls or evidence.",
-      "ko": "정답은 지정된 담당자, namespace와 rule 범위, 만료, 승인 및 보완 통제입니다. 다른 선택지는 인접하지만 충분하지 않은 통제 또는 evidence입니다."
+      "en": "An exception is reviewable only when its owner, namespace and rule scope, expiry, approval, and compensating controls are recorded. A broad label, cluster-wide exemption, or ticket without scope and expiry cannot bound the exception.",
+      "ko": "exception을 review하려면 owner, namespace와 rule 범위, expiry, approval과 compensating control을 기록해야 합니다. broad label이나 cluster-wide exemption, scope와 expiry 없는 ticket은 exception 범위를 제한하지 못합니다."
     },
     "ref": "https://kubernetes.io/docs/concepts/security/pod-security-admission/"
   },
@@ -12314,8 +12314,8 @@ window.QUIZ_BANKS = { local: [
     },
     "answer": 1,
     "explain": {
-      "en": "The correct choice is The exact digest and a verified reference to the approved artifact; the other options are adjacent controls or effects but do not answer the question.",
-      "ko": "정확한 digest와 승인된 아티팩트 참조는 배포된 콘텐츠를 고정하고 검증할 수 있게 합니다."
+      "en": "Recording the exact digest and a verified approved-artifact reference ties the deployment to immutable bytes. A tag, unresolved signed tag, or registry setting without deployment reference cannot identify what actually ran.",
+      "ko": "정확한 digest와 검증된 approved-artifact reference를 기록하면 deployment를 immutable byte에 연결할 수 있습니다. tag나 resolve되지 않은 signed tag, deployment reference 없는 registry setting은 실제 실행된 content를 식별하지 못합니다."
     },
     "ref": "https://slsa.dev/spec/v1.2/"
   },
@@ -12447,4 +12447,4 @@ window.QUIZ_BANKS = { local: [
     },
     "ref": "https://kubernetes.io/docs/concepts/security/pod-security-standards/"
   }
-] };
+];
