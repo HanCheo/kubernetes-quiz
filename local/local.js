@@ -3394,7 +3394,7 @@ window.QUIZ_BANKS=window.QUIZ_BANKS||{};window.QUIZ_BANKS.local=[
   {
     "id": "local-112",
     "exam": "kcna",
-    "domain": "Kubernetes Fundamentals",
+    "domain": "Cloud Native Architecture",
     "subtopic": "CNCF community roles · 자체 연습",
     "difficulty": "easy",
     "style": "exam",

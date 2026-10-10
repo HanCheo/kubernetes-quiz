@@ -65,6 +65,34 @@ main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
 .status{color:var(--mute);font-size:13px}
 .pass{color:var(--ok)}.fail{color:var(--bad)}
 .hidden{display:none!important}
+[hidden]{display:none!important}
+.study-tabs{display:flex;gap:8px;margin-bottom:18px}
+.study-tabs button{min-height:44px;flex:1}
+.study-tabs button[aria-selected="true"]{background:var(--acc);color:#111;font-weight:600}
+body[data-view="vocabulary"] header>select,body[data-view="vocabulary"] header>.language-buttons,body[data-view="vocabulary"] #historyButton,body[data-view="vocabulary"] #reset{display:none}
+.vocabulary-word{display:inline;padding:0;margin:0;border:0;border-radius:2px;background:transparent;color:inherit;font:inherit;line-height:inherit;max-width:100%;overflow-wrap:anywhere;vertical-align:baseline}
+.vocabulary-word:hover,.vocabulary-word.saved{color:var(--acc);text-decoration:underline;text-underline-offset:3px}
+.vocabulary-word:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.choices li{padding-left:60px;min-height:60px}
+.choices li button.k{left:6px;top:6px;width:44px;height:44px;padding:0;border:1px solid var(--line)}
+.vocabulary-notice{position:fixed;z-index:10;left:16px;right:16px;bottom:16px;max-width:600px;margin:0 auto;background:var(--panel);border:1px solid var(--acc);border-radius:8px;padding:12px 16px;pointer-events:none}
+.vocabulary-toolbar,.vocabulary-actions,.vocabulary-entry-head{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.vocabulary-toolbar input{flex:1;min-width:160px}
+.vocabulary-toolbar{margin:18px 0}
+.vocabulary-toolbar input,.vocabulary-meaning-form input{background:#1f232d;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:10px;font:inherit;min-height:44px}
+#vocabularyPanel button,#vocabularyPanel select{min-height:44px}
+.vocabulary-entry{border-top:1px solid var(--line);padding:18px 0}
+.vocabulary-entry-head{justify-content:space-between}
+.vocabulary-entry h3{margin:0}
+.vocabulary-entry details{margin:12px 0}
+.vocabulary-entry summary{cursor:pointer}
+.vocabulary-meaning-form{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.vocabulary-meaning-form label{flex:1;min-width:160px}
+.vocabulary-meaning-form input{display:block;width:100%;margin-top:4px}
+.vocabulary-definition b{color:var(--mute);font-size:13px}
+#vocabularyPanel a{color:#7aa7ff}
+.vocabulary-study-word{font-size:30px;color:var(--acc);margin:8px 0}
+.vocabulary-study-answer{border-left:3px solid var(--acc);padding-left:14px;margin:20px 0}
 @media(max-width:600px){header{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:center}header h1,header .language-buttons{grid-column:1/-1}header select,header button,.actions button,.actions select{min-height:44px;padding:9px 12px;width:100%}.language-buttons button{width:auto}.dom{grid-template-columns:1fr 90px 60px}.history-row{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
@@ -74,20 +102,37 @@ main{max-width:900px;margin:0 auto;padding:20px 16px 80px}
   <select id="exam"><option value="local-kcna">KCNA</option><option value="local-kcsa">KCSA</option><option value="local">KCNA + KCSA</option></select>
   <select id="mode"><option value="endless">끝없이 (즉시 해설)</option><option value="wrong">오답만 다시</option><option value="exam">모의고사 60문항 / 90분</option></select>
   <select id="domain"><option value="">전체 도메인</option></select>
-  <select id="style"><option value="">전체 유형</option><option value="exam">실전형 (실제 시험 스타일)</option><option value="study">심화형 (시나리오)</option></select>
+  <select id="style"><option value="">전체 유형</option><option value="exam">객관식 연습</option><option value="study">심화형 (시나리오)</option></select>
   <span class="language-buttons" role="group" aria-label="번역 언어"><span>번역 언어</span><button id="target-ko" type="button" aria-pressed="true">한국어</button><button id="target-en" type="button" aria-pressed="false">English</button></span>
   <span id="timer" class="timer hidden"></span>
   <button id="historyButton" class="primary" type="button" aria-controls="history" aria-expanded="false">시험 기록</button>
   <button id="reset" type="button" title="이 시험의 진행 통계 삭제">통계 초기화</button>
 </header>
 <main>
+  <nav id="studyTabs" class="study-tabs" role="tablist" aria-label="학습 화면"><button id="quizTab" type="button" role="tab" aria-selected="true" aria-controls="quizPanel">퀴즈</button><button id="vocabularyTab" type="button" role="tab" aria-selected="false" aria-controls="vocabularyPanel" tabindex="-1">단어장 <span id="vocabularyCount">0</span></button></nav>
+  <div id="quizPanel" role="tabpanel" aria-labelledby="quizTab">
+  <p class="status">제공 자료와 자체 작성 연습문제가 섞여 있습니다. 공식 기출 여부와 실전 난이도가 검증된 문제은행은 아닙니다.</p>
   <div class="stats" id="stats"></div>
   <div class="card" id="card"></div>
   <div class="domains" id="domains"></div>
   <div class="result card hidden" id="result"></div>
   <div class="history-list card hidden" id="history"></div>
+  </div>
+  <section id="vocabularyPanel" class="card" role="tabpanel" aria-labelledby="vocabularyTab" hidden>
+    <h2>개인 영단어장</h2>
+    <p class="status">문제·보기·해설의 영단어를 누르면 단어와 한영 예문이 저장됩니다. 일반 영영사전 뜻을 조회하며, 한국어 뜻은 직접 적을 수 있습니다.</p>
+    <p class="status">단어장은 이 브라우저에 저장됩니다. 모의고사 중 탭을 바꿔도 제한 시간은 계속 흐릅니다.</p>
+    <div id="vocabularyBrowse">
+      <div class="vocabulary-toolbar"><input id="vocabularySearch" type="search" aria-label="단어·한국어 뜻 검색" placeholder="단어·한국어 뜻 검색"><select id="vocabularyFilter" aria-label="단어 학습 상태"><option value="all">전체 단어</option><option value="learning">복습할 단어</option><option value="known">학습 완료</option></select><button id="startVocabularyReview" type="button" class="primary">현재 목록 복습</button></div>
+      <p id="vocabularySummary" class="status" aria-live="polite"></p>
+      <div id="vocabularyList"></div>
+    </div>
+    <div id="vocabularyStudy" hidden></div>
+  </section>
+  <div id="vocabularyNotice" class="vocabulary-notice hidden" role="status" aria-live="polite"></div>
 </main>
-<script src="local/local.js"></script>
+<script src="local/local.js?v=20261010-vocabulary"></script>
+<script src="vocabulary.js?v=20261010-vocabulary"></script>
 <script>
 (() => {
 const BANKS = window.QUIZ_BANKS || {};
@@ -138,7 +183,8 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
 let targetLanguage = "ko", translationShown = false;
 const bi = (en, ko, tag = "span", show = false) => {
   const primary = targetLanguage === "ko" ? en : ko, translation = targetLanguage === "ko" ? ko : en;
-  return `<${tag} class="primary">${esc(primary)}</${tag}><${tag} class="translation${show ? " visible" : ""}">${esc(translation)}</${tag}>`;
+  const context = ` data-vocabulary-context data-context-en="${esc(en)}" data-context-ko="${esc(ko)}"`;
+  return `<${tag} class="primary"${context}>${window.QuizVocabulary.format(primary)}</${tag}><${tag} class="translation${show ? " visible" : ""}"${context}>${window.QuizVocabulary.format(translation)}</${tag}>`;
 };
 
 // ---- state ----
@@ -221,13 +267,13 @@ function fillDomains() {
 function renderQuestion(q, ord, picked, reveal) {
   const examTag = q.exam === "kcna" || q.id.startsWith("kcna") ? "KCNA" : q.exam === "kcsa" || q.id.startsWith("kcsa") ? "KCSA" : "개인";
   const html = `
-    <div class="meta"><span class="tag">${examTag}</span><span class="tag">${esc(q.domain)}</span><span class="tag">${esc(q.subtopic || "")}</span><span class="tag d-${q.difficulty}">${q.difficulty}</span><span class="tag">${q.style === "exam" ? "실전형" : "심화형"}</span><span class="tag">${q.id}</span>${exam ? `<span class="tag">${exam.idx + 1} / ${exam.items.length}</span>` : ""}</div>
+    <div class="meta"><span class="tag">${examTag}</span><span class="tag">${esc(q.domain)}</span><span class="tag">${esc(q.subtopic || "")}</span><span class="tag d-${q.difficulty}">${q.difficulty}</span><span class="tag">${q.style === "exam" ? "객관식 연습" : "심화형"}</span><span class="tag">${q.id}</span>${exam ? `<span class="tag">${exam.idx + 1} / ${exam.items.length}</span>` : ""}</div>
     <p class="q">${bi(q.q.en, q.q.ko, "span", translationShown)}</p>
     <ol class="choices">${ord.map((ci, i) => {
       let cls = "";
       if (reveal) { if (ci === q.answer) cls = "ok"; else if (picked === ci) cls = "bad"; cls += " locked"; }
       else if (picked === ci) cls = "sel";
-      return `<li data-ci="${ci}" class="${cls}"><span class="k">${i + 1}</span>${bi(q.choices.en[ci], q.choices.ko[ci], "span", translationShown)}</li>`;
+      return `<li data-ci="${ci}" class="${cls}"><button type="button" class="k" aria-label="${i + 1}번 보기 선택"${reveal ? " disabled" : ""}>${i + 1}</button>${bi(q.choices.en[ci], q.choices.ko[ci], "span", translationShown)}</li>`;
     }).join("")}</ol>
     <div class="explain${reveal ? " show" : ""}">
       <div class="verdict ${picked === q.answer ? "ok" : "bad"}">${picked === q.answer ? "정답" : "오답 — 정답은 " + (ord.indexOf(q.answer) + 1) + "번"}</div>
@@ -238,7 +284,7 @@ function renderQuestion(q, ord, picked, reveal) {
       <button id="translationToggle" type="button" aria-expanded="${translationShown}" aria-pressed="${translationShown}">${targetLanguage === "ko" ? "한국어" : "English"} 번역 ${translationShown ? "숨기기" : "보기"}</button>
       ${exam ? `<button id="prev"${exam.idx === 0 ? " disabled" : ""}>이전</button><button id="next" class="primary">${exam.idx === exam.items.length - 1 ? "제출" : "다음"}</button>`
              : `<button id="next" class="primary"${reveal ? "" : " disabled"}>다음 문제 (Enter)</button><button id="skip">건너뛰기</button>`}
-      <span class="hint">1–4 로 선택${exam ? "" : " · Enter 다음"}</span>
+      <span class="hint">영단어 클릭: 단어장 저장 · 보기 번호 또는 빈 공간: 답 선택 · 1–4 키${exam ? "" : " · Enter 다음"}</span>
     </div>`;
   el.card.innerHTML = html;
   el.card.querySelectorAll(".choices li").forEach(li => li.addEventListener("click", () => choose(+li.dataset.ci)));
@@ -387,6 +433,7 @@ function renderAttempt(attempt, allShown = false, options = {}) {
   }));
   $("#closeReview").addEventListener("click", closeHistoryView);
   $("#again").addEventListener("click", startExam);
+  if ($("#quizPanel").hidden) return;
   if (options.scroll === false) {
     if (options.scrollTop != null) window.scrollTo(0, options.scrollTop);
     if (options.reviewIndex != null) {
@@ -463,7 +510,7 @@ el.historyButton.addEventListener("click", () => {
 el.reset.addEventListener("click", () => { if (confirm(`${el.exam.selectedOptions[0].text} 진행 통계를 삭제할까요?`)) { localStorage.removeItem(statsKey()); start(); } });
 document.addEventListener("keydown", e => {
   if (e.target.tagName === "SELECT" || e.target.tagName === "BUTTON") return;
-  if (viewedAttempt || !el.history.classList.contains("hidden")) return;
+  if ($("#quizPanel").hidden || viewedAttempt || !el.history.classList.contains("hidden")) return;
   if (/^[1-4]$/.test(e.key) && cur && order) { choose(order[+e.key - 1]); e.preventDefault(); }
   else if ((e.key === "Enter" || e.key === " ") && cur) { next(); e.preventDefault(); }
 });
